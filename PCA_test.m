@@ -4,8 +4,9 @@
 % data_fix = h5read(filename,'/TransformGroup/0/TranformParameters');
 clear
 tic
+
 num_voxel = 29952000; %For run1
-%num_voxel = 25344000; %For run2
+%num_voxel = 25344000; %For v1run2
  
 max_num=15;
 data = zeros(num_voxel,max_num-1);
@@ -37,6 +38,10 @@ for i=2:max_num %Time points
             
     end
 end
+
+
+save(strcat('param_DVF_xyz.mat'),'data_x','data_y','data_z');
+
 
 [coeff_x,score_x,latent_x,~,explained_x] = pca(data_x);
 [coeff_y,score_y,latent_y,~,explained_y] = pca(data_y);
@@ -93,7 +98,6 @@ H5D.write(dset_id,'H5ML_DEFAULT','H5S_ALL','H5S_ALL',plist,data_new);
 H5D.close(dset_id);
 H5F.close(fid);
 
-
 %Write data_new_inverse to .h5 file  
 srcfile = 'Output vector field (MRML)_deform_1_2.h5';
 copyfile(srcfile,'DVF_FirstComp_inv.h5');
@@ -103,6 +107,14 @@ fid = H5F.open('DVF_FirstComp_inv.h5','H5F_ACC_RDWR',plist);
 dset_id = H5D.open(fid,'/TransformGroup/0/TranformParameters');
 H5D.write(dset_id,'H5ML_DEFAULT','H5S_ALL','H5S_ALL',plist,data_new_inverse);
 H5D.close(dset_id);
+H5F.close(fid);
+
+%read .h5 file
+fid = H5F.open('Output vector field (MRML)_deform_1_2.h5'); 
+gid = H5G.open(fid,'/TransformGroup/0'); 
+dataset_id = H5D.open(gid,'TranformParameters');
+data = H5D.read(dataset_id);
+H5D.close(dataset_id);
 H5F.close(fid);
 
 
