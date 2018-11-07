@@ -1,10 +1,8 @@
+function CalcDVFDiff(data_x,data_y,data_z,dirname)
+
 %Calculate scalar of xyz components
 
-
-%dirname = ('C:\Users\jihun\Documents\MATLAB\PCA\v1_run1');
-%dirname = ('C:\Users\jihun\Documents\MATLAB\PCA\v1_run2');
-dirname = ('C:\Users\jihun\Documents\MATLAB\PCA\v2_run1');
-
+cd(dirname);
 
 sum_x = zeros(14,1);
 sum_y = zeros(14,1);
@@ -25,7 +23,7 @@ ave_y = sum_y / size(data_x,1);
 ave_z = sum_z / size(data_x,1);
 
 sum = sum_x + sum_y + sum_z;
-ave = (sum_x + sum_y + sum_z)/3;
+ave = (ave_x + ave_y + ave_z)/3;
 save(strcat('DVF_diff.mat'),'ave','sum');
 
 
