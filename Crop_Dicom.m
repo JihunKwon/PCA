@@ -1,7 +1,7 @@
 % 2018/11/22 Jihun Kwon
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Version 1.1
-% Modified on 12/26/2018 by Jihun Kwon
+% Modified on 12/27/2018 by Jihun Kwon
 % Crop nrrd to user-specified region and save.
 % Step 0: (Slicer) Rigid registration of whole image
 % Step 1: Crop with Large margin (loosely crop)

@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Version 1.0
-% Created on 12/26/2018 by Jihun Kwon
+% Modified on 12/27/2018 by Jihun Kwon
 % Import Diffusion Vector Field (DVF) .h5 files and convert to 4D matrix of
 % DVF 'param_DVF_xyz.mat'
 % Email: jkwon3@bwh.harvard.edu
