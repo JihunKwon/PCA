@@ -1,3 +1,9 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Version 1.0
+% Modified on 12/27/2018 by Jihun Kwon
+% Visualize Box plot and DVF distribution
+% Email: jkwon3@bwh.harvard.edu
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear;
 close all;
 numofsubject = 4;
