@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Version 1.0
-% Created on 12/26/2018 by Jihun Kwon
+% Modified on 12/27/2018 by Jihun Kwon
 % Do PCA analysis for DIR data. Run after "Convert_DVF_h5toMatrix.m"
 % Email: jkwon3@bwh.harvard.edu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
