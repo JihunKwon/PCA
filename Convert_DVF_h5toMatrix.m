@@ -1,3 +1,4 @@
+function []=Convert_DVF_h5toMatrix(subject_name,param_name)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Version 1.0
 % Modified on 12/27/2018 by Jihun Kwon
@@ -9,7 +10,7 @@
 %subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20180928');
 %subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20181102');
 %subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181102');
-subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181220');
+%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181220');
 
 if strcmp(subject_name,'C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181102')
     num_voxel = 25344000; %For v1run2 and v2run1
@@ -19,10 +20,11 @@ end
 
 %param_name = ('trans_subsamp111_maxiter200');
 %param_name = ('trans_subsamp221_maxiter200');
-param_name = ('r_c_d');
+%param_name = ('r_c_d');
 %param_name = ('r_c_r_c_d');
+%param_name = ('r_c_r_d');
 
-if strcmp(param_name,'r_c_d')
+if strcmp(param_name,'r_c_d') || strcmp(param_name,'r_c_r_d')
     num_voxel = 1008000;
 elseif strcmp(param_name,'r_c_r_c_d')
     %num_voxel = 81600;
@@ -49,6 +51,8 @@ for i=2:max_num %Time points
         filename = strcat('Output vector field (MRML)_trans_crop_L_deform_',str,'.h5');
     elseif strcmp(param_name,'r_c_r_c_d')
         filename = strcat('Output vector field (MRML)_trans2_crop2_S_deform_',str,'.h5');
+    elseif strcmp(param_name,'r_c_r_d')
+        filename = strcat('Output vector field (MRML)_trans2_crop_L_deform_',str,'.h5');
     else
         filename = strcat('Output vector field (MRML)_deform_',str,'.h5');
     end
