@@ -11,8 +11,8 @@
 % Email: jkwon3@bwh.harvard.edu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20180928');
-%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20181102');
+%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20180928');
+subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20181102');
 %subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181102');
 %subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181220');
 cd(subject_name)
@@ -31,19 +31,19 @@ cd(basefolder_r)
 %% center of ROI. Change specifically for subject
 if strcmp(basefolder_r,'C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20180928\Cropped\rigid')
     %v1run1 (JB)
-    center_L = [-30 -16 -10]; %Center for step1
+    center_L = [-30 -20 -20]; %Center for step1
     center_S = [7 0 1]; %Center for step3
 elseif strcmp(basefolder_r, 'C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20181102\Cropped\rigid')
     %v1run2 (JB)
-    center_L = [-30 -20 -6];
+    center_L = [-30 -20 -16];
     center_S = [8 3 0];
 elseif strcmp(basefolder_r, 'C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181102\Cropped\rigid')
     %v2run1 (JK)
-    center_L = [-30 -16 4];
+    center_L = [-26 -20 4];
     center_S = [3 -12 -3];
 elseif strcmp(basefolder_r, 'C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181220\Cropped\rigid')
     %v2run2 (JK)
-    center_L = [-12 -16 4]; %X:Vertical, Y:Lateral
+    center_L = [-8 -16 4]; %X:Vertical, Y:Lateral
     center_S = [4 -9 -4];
 else
     print('No such subject!');
@@ -63,7 +63,7 @@ y_S = 54; %left to right
 z_S = 20;
 
 %% Step1: Loosly crop
-%{
+
 for i=1:15
     cd(basefolder_r);
     
@@ -96,11 +96,11 @@ for j=1:size(body_seg_L_6,3)
     imshow(body_seg_L_6(:,:,j), []);
     export_fig(sprintf('body_seg_L_%d.png', j));
 end
-%}
+
 %% Step2: Rigid registration (Slicer)
 
 %% Step3: Tightly crop
-
+%{
 cd(basefolder_r_c_r)
 
 for i=1:15
@@ -137,3 +137,4 @@ for j=1:size(body_seg_S_6,3)
     imshow(body_seg_S_6(:,:,j), []);
     export_fig(sprintf('body_seg_S_%d.png', j));
 end
+%}

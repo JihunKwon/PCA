@@ -1,6 +1,7 @@
+function []=Crop_DVF(subject_name,param_name)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Version 1.1
-% Modified on 12/26/2018 by Jihun Kwon
+% Modified on 12/27/2018 by Jihun Kwon
 % This code reshape x,y,z of DVF into 4D matrix. This allows us to handle 
 % DVF as same matrix with MATLAB. Crop DVF with body-surface or user-specified 
 % region save "DVF_ave.mat"
@@ -8,8 +9,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Crop dicom before applying DIR.
-close all
-clear
+%close all
+%clear
 
 x_S = 46; %top to bottom
 y_S = 54; %left to right
@@ -22,12 +23,13 @@ z_L = 40;
 %subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20180928');
 %subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20181102');
 %subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181102');
-subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181220');
+%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181220');
 
 %param_name = ('trans_subsamp111_maxiter200');
 %param_name = ('trans_subsamp221_maxiter200');
 %param_name = ('r_c_d');
-param_name = ('r_c_r_c_d');
+%param_name = ('r_c_r_c_d');
+%param_name = ('r_c_r_d');
 
 dirname = strcat(subject_name,'\',param_name);
 cd(dirname);
@@ -38,7 +40,7 @@ load('param_DVF_xyz.mat');
 n=1;
 scale=1;
 
-if strcmp(param_name,'r_c_d')
+if strcmp(param_name,'r_c_d') || strcmp(param_name,'r_c_r_d')
     data_x_new = reshape(data_x, [x_L,y_L,z_L,14]);
     data_y_new = reshape(data_y, [x_L,y_L,z_L,14]);
     data_z_new = reshape(data_z, [x_L,y_L,z_L,14]);

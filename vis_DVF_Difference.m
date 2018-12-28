@@ -1,16 +1,19 @@
+function []=vis_DVF_Difference(param_name)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Version 1.0
 % Modified on 12/27/2018 by Jihun Kwon
 % Visualize Box plot and DVF distribution
 % Email: jkwon3@bwh.harvard.edu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-clear;
-close all;
+
+base_name = ('C:\Users\jihun\Documents\MATLAB\PCA');
+cd(base_name);
 numofsubject = 4;
 %param_name = ('trans_subsamp111_maxiter200');
 %param_name = ('trans_subsamp221_maxiter200');
 %param_name = ('r_c_d');
-param_name = ('r_c_r_c_d');
+%param_name = ('r_c_r_c_d');
+%param_name = ('r_c_r_d');
 
 %% Calculate average of vector scolar 
 
@@ -42,9 +45,10 @@ end
 
 y_min = 0;
 y_max = 7;
-y_max_root = 14;
+y_max_root = 7;
 
 %Average
+cd(base_name);
 figure
 ave_all = [ave_runA ave_runB ave_runC];
 g = [zeros(1,length(ave_runA)), ones(1,length(ave_runB)), 2*ones(1,length(ave_runC))];
@@ -52,8 +56,6 @@ boxplot(ave_all, g,'Labels',{'Befor Water','Shortly After Water','10 min After W
 ylabel('Average of Vector Scalar');
 set(gcf, 'Color', 'w');
 ylim([y_min y_max]);
-cd ..
-cd ..
 savename = strcat('Ave_DVF_',param_name,'.tif');
 saveas(gcf,savename);
 export_fig((savename), '-q101')
@@ -66,8 +68,6 @@ boxplot(ave_all_root, g,'Labels',{'Befor Water','Shortly After Water','10 min Af
 ylabel('Average of Vector Scalar');
 set(gcf, 'Color', 'w');
 ylim([y_min y_max_root]);
-cd ..
-cd ..
 savename = strcat('Ave_DVF_root_',param_name,'.tif');
 saveas(gcf,savename);
 export_fig((savename), '-q101')
