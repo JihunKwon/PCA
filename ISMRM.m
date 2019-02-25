@@ -143,7 +143,7 @@ x = 0:0.1:1;
 y = a*x+b;
 
 figure;
-markers = {'o', 's', '^', 'd'};
+markers = {'o', 'o', 's', 's'};
 for sub = 1:num_subject
     scatter(scat_ocm_runA(1+(sub-1)*4:sub*4),scat_mri_runA(1+(sub-1)*4:sub*4),70,C(1,1:3),'filled',markers{sub}); hold on;
     scatter(scat_ocm_runB(1+(sub-1)*5:sub*5),scat_mri_runB(1+(sub-1)*5:sub*5),70,C(2,1:3),'filled',markers{sub}); hold on;
@@ -216,11 +216,20 @@ a = mdl.Coefficients.Estimate(2);
 x = 0:0.1:1;
 y = a*x+b;
 
+%{
 figure;
 for sub = 1:num_subject
     scatter(scat_o_runA_sub(1+(sub-1)*4:sub*4),scat_m_runA_sub(1+(sub-1)*4:sub*4),70,C(1,1:3),'filled',markers{sub}); hold on;
     scatter(scat_o_runB_sub(1+(sub-1)*5:sub*5),scat_m_runB_sub(1+(sub-1)*5:sub*5),70,C(2,1:3),'filled',markers{sub}); hold on;
     scatter(scat_o_runC_sub(1+(sub-1)*5:sub*5),scat_m_runC_sub(1+(sub-1)*5:sub*5),70,C(3,1:3),'filled',markers{sub}); hold on;
+end
+%}
+
+figure;
+for sub = 1:num_subject
+    scatter(scat_o_runA_sub(1+(sub-1)*4:sub*4),scat_m_runA_sub(1+(sub-1)*4:sub*4),70,'filled',markers{sub},'LineWidth',1.3); hold on;
+    scatter(scat_o_runB_sub(1+(sub-1)*5:sub*5),scat_m_runB_sub(1+(sub-1)*5:sub*5),70,'filled',markers{sub},'LineWidth',1.3); hold on;
+    scatter(scat_o_runC_sub(1+(sub-1)*5:sub*5),scat_m_runC_sub(1+(sub-1)*5:sub*5),70,'filled',markers{sub},'LineWidth',1.3); hold on;
 end
 
 xlim([0 1.0]);
@@ -231,6 +240,7 @@ text(0.4,0.5, ['R^2 = ' num2str(R2)],'FontSize',10);
 xlabel('OCM, Mean Square Difference');
 ylabel('MRI, DVF_{Mean Magnitude}');
 legend({'Before water','Shortly after water','10 min after water'},'Location','southeast','FontSize',8);
+legend boxoff 
 box on;
 set(gcf, 'Color', 'w');
 pbaspect([1 1 1])
