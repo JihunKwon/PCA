@@ -5,6 +5,7 @@
 %Adjust z position of after and 10min after to before.
 adjustZ_bef_aft = -125.884;
 adjustZ_bef_10m = -20.867;
+adjustZ_bef_10m_14 = -20.867+14; %14th scan was not registered well. Soanually adjust.
 
 %% After1
 
@@ -200,7 +201,7 @@ for cnt = 1 : numel(dicomlist)
     meta = dicominfo(dicomlist(cnt).name);
     pri1015 = meta.Private_0019_1015;
     pos = meta.ImagePositionPatient;
-    pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_10m];
+    pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_10m_14];
     meta.ImagePositionPatient = pos_new;
     meta.Private_0019_1015  = pos_new;
     

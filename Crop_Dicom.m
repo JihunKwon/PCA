@@ -49,7 +49,6 @@ elseif strcmp(basefolder_r, 'C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_2018
 elseif strcmp(basefolder_r, 'C:\Users\jihun\Documents\MATLAB\PCA\Subject_03_20190228\Cropped\rigid')
     %v3run1 (NV)
     center_L = [-8 -16 7];
-    center_S = [4 -9 0];
 else
     print('No such subject!');
 end
