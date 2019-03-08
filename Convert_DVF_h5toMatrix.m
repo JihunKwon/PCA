@@ -25,7 +25,7 @@ end
 %param_name = ('r_c_r_d');
 
 if strcmp(param_name,'r_c_d') || strcmp(param_name,'r_c_r_d')
-    num_voxel = 1008000;
+    num_voxel = 997920;
 elseif strcmp(param_name,'r_c_r_c_d')
     %num_voxel = 81600;
     num_voxel = 149040;

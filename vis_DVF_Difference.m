@@ -11,8 +11,8 @@ cd(base_name);
 numofsubject = 5;
 %param_name = ('trans_subsamp111_maxiter200');
 %param_name = ('trans_subsamp221_maxiter200');
-param_name = ('r_c_d');
-%param_name = ('r_c_r_d');
+%param_name = ('r_c_d');
+param_name = ('r_c_r_d');
 %param_name = ('r_c_r_c_d');
 %% Calculate average of vector scolar 
 
@@ -48,7 +48,7 @@ end
 
 y_min = 0;
 y_max = 7;
-y_max_root = 7;
+y_max_root = 10;
 
 %{
 %Average

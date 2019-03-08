@@ -42,8 +42,8 @@ Convert_DVF_h5toMatrix(subject_name,param_name)
 Crop_DVF(subject_name,param_name)
 
 %% 
-param_name = ('r_c_d');
-vis_DVF_Difference(param_name)
-
-param_name = ('r_c_r_d');
-vis_DVF_Difference(param_name)
+% param_name = ('r_c_d');
+% vis_DVF_Difference(param_name)
+% 
+% param_name = ('r_c_r_d');
+% vis_DVF_Difference(param_name)

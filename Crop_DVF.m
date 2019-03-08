@@ -17,8 +17,8 @@ y_S = 54; %left to right
 z_S = 20;
 
 x_L = 84; %top to bottom
-y_L = 100; %left to right
-z_L = 40;
+y_L = 110; %left to right
+z_L = 36;
 
 %subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20180928');
 %subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20181102');

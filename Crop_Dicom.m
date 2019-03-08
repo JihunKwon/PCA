@@ -11,11 +11,11 @@
 % Email: jkwon3@bwh.harvard.edu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20180928');
-%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20181102');
-%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181102');
-%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181220');
-subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_03_20190228');
+%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20180928'); subject = 's1r1';
+%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20181102'); subject = 's1r2';
+%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181102'); subject = 's2r1';
+%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181220'); subject = 's2r2';
+subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_03_20190228'); subject = 's3r1';
 cd(subject_name)
 
 mkdir Cropped
@@ -32,23 +32,28 @@ cd(basefolder_r)
 %% center of ROI. Change specifically for subject
 if strcmp(basefolder_r,'C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20180928\Cropped\rigid')
     %v1run1 (JB)
-    center_L = [-30 -20 -20]; %Center for step1
+    %center_L = [-30 -20 -20]; %Center for step1
+    center_L = [-30 0 -10]; %Center for step1 [+: Posterior, +:Right, +:Cranior]
     center_S = [7 0 1]; %Center for step3
 elseif strcmp(basefolder_r, 'C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20181102\Cropped\rigid')
     %v1run2 (JB)
-    center_L = [-30 -20 -16];
+    %center_L = [-30 -20 -16];    
+    center_L = [-30 0 -10];
     center_S = [8 3 0];
 elseif strcmp(basefolder_r, 'C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181102\Cropped\rigid')
     %v2run1 (JK)
-    center_L = [-26 -20 4];
+    %center_L = [-26 0 4];
+    center_L = [-26 4 4];
     center_S = [3 -12 -3];
 elseif strcmp(basefolder_r, 'C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181220\Cropped\rigid')
     %v2run2 (JK)
-    center_L = [-8 -16 4]; %X:Vertical, Y:Lateral
+    %center_L = [-8 -16 4]; %X:Vertical, Y:Lateral
+    center_L = [-8 10 4]; %X:Vertical, Y:Lateral
     center_S = [4 -9 -4];
 elseif strcmp(basefolder_r, 'C:\Users\jihun\Documents\MATLAB\PCA\Subject_03_20190228\Cropped\rigid')
     %v3run1 (NV)
-    center_L = [-8 -16 7];
+    %center_L = [-8 -16 7];
+    center_L = [-14 -4 16];
 else
     print('No such subject!');
 end
@@ -57,8 +62,8 @@ end
 %[Large margins] Length of x,y,z
 %L" repreesnts Large
 x_L = 84; %top to bottom
-y_L = 100; %left to right
-z_L = 40;
+y_L = 110; %left to right
+z_L = 36;
 
 %[Very Tight] Length of x,y,z
 %"S" repreesnts Small
@@ -87,8 +92,12 @@ for i=1:15
         center_L(3)+size(body,3)/2-z_L/2 : center_L(3)+size(body,3)/2+z_L/2 -1);
     
     %Use 6th image for visualization
-    if i==6
+    if i==1
+        body_seg_L_1 = body_seg_L;
+    elseif i==11
         body_seg_L_6 = body_seg_L;
+    else
+        body_seg_L_15 = body_seg_L;
     end
     
     cd ..
@@ -98,10 +107,23 @@ for i=1:15
     nrrdWriter(fname_L,body_seg_L,[1,1,2],[0,0,0],'raw');
 end
 
-for j=1:size(body_seg_L_6,3)
+cd(subject_name)
+cd Cropped
+for j=1:size(body_seg_L_1,3)
+    figure(1);
+    imshow(body_seg_L_1(:,:,j), []);
+    %imshow(body_seg_L_1(:,:,j), []);
+    export_fig(sprintf('body_seg_L_1_%d.png', j));
+end
+for j=1:size(body_seg_L_1,3)
     figure(1);
     imshow(body_seg_L_6(:,:,j), []);
-    export_fig(sprintf('body_seg_L_%d.png', j));
+    export_fig(sprintf('body_seg_L_5_%d.png', j));
+end
+for j=1:size(body_seg_L_1,3)
+    figure(1);
+    imshow(body_seg_L_15(:,:,j), []);
+    export_fig(sprintf('body_seg_L_15_%d.png', j));
 end
 
 %% Step2: Rigid registration (Slicer)
