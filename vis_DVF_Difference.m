@@ -29,7 +29,7 @@ for i=1:numofsubject
         subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_03_20190228'); %Jihun run1
     end
     
-    dirname = strcat(subject_name,'\',param_name);
+    dirname = strcat(subject_name,'\',param_name,'(old2)');
     cd(dirname);
     load('DVF_ave.mat');
     
@@ -169,4 +169,4 @@ saveas(gcf,savename);
 export_fig((savename), '-q101')
 
 
-Plot_MRI_OCM
+%Plot_MRI_OCM
