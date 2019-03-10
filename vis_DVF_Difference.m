@@ -11,8 +11,8 @@ cd(base_name);
 numofsubject = 5;
 %param_name = ('trans_subsamp111_maxiter200');
 %param_name = ('trans_subsamp221_maxiter200');
-%param_name = ('r_c_d');
-param_name = ('r_c_r_d');
+param_name = ('r_c_d');
+%param_name = ('r_c_r_d');
 %param_name = ('r_c_r_c_d');
 %% Calculate average of vector scolar 
 
@@ -29,7 +29,7 @@ for i=1:numofsubject
         subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_03_20190228'); %Jihun run1
     end
     
-    dirname = strcat(subject_name,'\',param_name,'(old2)');
+    dirname = strcat(subject_name,'\',param_name);
     cd(dirname);
     load('DVF_ave.mat');
     

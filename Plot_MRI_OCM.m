@@ -86,17 +86,20 @@ if strcmp(param_name,'r_c_d')
     s3r1A = num_A; s3r1B = num_B; s3r1C = num_C;
 elseif strcmp(param_name,'r_c_r_d')
     %Manually define outliers here (outlier is detected from Box and whiskers plot)
-    outlier_A = [4,3,2];  %S1r1:3
-    outlier_B = [3]; %S1r1:3
+%     outlier_A = [4,3,2];  %S1r1:3
+%     outlier_B = [3]; %S1r1:3
+%     outlier_C = [24]; %S3r1:13
+    outlier_A = [3];  %S1r1:3
+    outlier_B = [12]; %S2r1:3
     outlier_C = [24]; %S3r1:13
 
     %Update subject datapoint number. manually change subtract value
-    s1r1A = num_A - 3;
-    s1r1B = num_B - 1;
+    s1r1A = num_A - 1;
+    s1r1B = num_B;
     s1r1C = num_C;
 
     s1r2A = num_A; s1r2B = num_B; s1r2C = num_C;
-    s2r1A = num_A; s2r1B = num_B; s2r1C = num_C;
+    s2r1A = num_A; s2r1B = num_B - 1; s2r1C = num_C;
     s2r2A = num_A; s2r2B = num_B; s2r2C = num_C;
     s3r1A = num_A; s3r1B = num_B; s3r1C = num_C - 1;
 end
