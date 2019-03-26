@@ -46,6 +46,13 @@ for i=1:numofsubject
     mri_runC(5*(i-1)+1:5*i) = ave_root(10:14); %C is shortly before drink water
 end
 
+A = zeros(3,5*numofsubject);
+A(1,1:5*(numofsubject-1)) = mri_runA;
+A(2,:) = mri_runB;
+A(3,:) = mri_runC;
+filename = 'MRI_DVF_matlab.xlsx';
+xlswrite(filename,A,1)
+
 y_min = 0;
 y_max = 7;
 y_max_root = 10;
