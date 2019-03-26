@@ -1,7 +1,7 @@
 %This script plots box plots for PTV and OARs.
 close all
 num_sub = 3; %number of subjects
-
+ 
 cd('C:\Users\jihun\Documents\US_MRI');
 OAR_vol = xlsread('Planning Results_Escalation_vol.xlsx',1);
 %OAR_vol = xlsread('Planning Results_Escalation_vol2.xlsx',1);
