@@ -11,11 +11,12 @@
 % Email: jkwon3@bwh.harvard.edu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20180928'); subject = 's1r1';
-%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20181102'); subject = 's1r2';
-%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181102'); subject = 's2r1';
-%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181220'); subject = 's2r2';
-subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_03_20190228'); subject = 's3r1';
+%subject_name = ('C:\Users\Kwon\Documents\MATLAB\PCA\Subject_01_20180928'); subject = 's1r1';
+%subject_name = ('C:\Users\Kwon\Documents\MATLAB\PCA\Subject_01_20181102'); subject = 's1r2';
+%subject_name = ('C:\Users\Kwon\Documents\MATLAB\PCA\Subject_02_20181102'); subject = 's2r1';
+%subject_name = ('C:\Users\Kwon\Documents\MATLAB\PCA\Subject_02_20181220'); subject = 's2r2';
+%subject_name = ('C:\Users\Kwon\Documents\MATLAB\PCA\Subject_03_20190228'); subject = 's3r1';
+subject_name = ('C:\Users\Kwon\Documents\MATLAB\PCA\Subject_03_20190320'); subject = 's3r2';
 cd(subject_name)
 
 mkdir Cropped
@@ -30,30 +31,34 @@ basefolder_r = strcat(subject_name,'\Cropped\rigid');
 cd(basefolder_r)
 
 %% center of ROI. Change specifically for subject
-if strcmp(basefolder_r,'C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20180928\Cropped\rigid')
+if strcmp(basefolder_r,'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_01_20180928\Cropped\rigid')
     %v1run1 (JB)
     %center_L = [-30 -20 -20]; %Center for step1
     center_L = [-30 0 -10]; %Center for step1 [+: Posterior, +:Right, +:Cranior]
     center_S = [7 0 1]; %Center for step3
-elseif strcmp(basefolder_r, 'C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20181102\Cropped\rigid')
+elseif strcmp(basefolder_r, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_01_20181102\Cropped\rigid')
     %v1run2 (JB)
     %center_L = [-30 -20 -16];    
     center_L = [-30 0 -10];
     center_S = [8 3 0];
-elseif strcmp(basefolder_r, 'C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181102\Cropped\rigid')
+elseif strcmp(basefolder_r, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_02_20181102\Cropped\rigid')
     %v2run1 (JK)
     %center_L = [-26 0 4];
-    center_L = [-26 4 4];
+    center_L = [-24 0 2];
     center_S = [3 -12 -3];
-elseif strcmp(basefolder_r, 'C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181220\Cropped\rigid')
+elseif strcmp(basefolder_r, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_02_20181220\Cropped\rigid')
     %v2run2 (JK)
     %center_L = [-8 -16 4]; %X:Vertical, Y:Lateral
-    center_L = [-8 10 4]; %X:Vertical, Y:Lateral
+    center_L = [-6 10 2]; %X:Vertical, Y:Lateral
     center_S = [4 -9 -4];
-elseif strcmp(basefolder_r, 'C:\Users\jihun\Documents\MATLAB\PCA\Subject_03_20190228\Cropped\rigid')
+elseif strcmp(basefolder_r, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_03_20190228\Cropped\rigid')
     %v3run1 (NV)
     %center_L = [-8 -16 7];
-    center_L = [-14 -4 16];
+    center_L = [-12 -2 10];
+elseif strcmp(basefolder_r, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_03_20190320\Cropped\rigid')
+    %v3run2 (NV)
+    %center_L = [-8 -16 7];
+    center_L = [-18 0 1];
 else
     print('No such subject!');
 end
@@ -115,6 +120,7 @@ for j=1:size(body_seg_L_1,3)
     %imshow(body_seg_L_1(:,:,j), []);
     export_fig(sprintf('body_seg_L_1_%d.png', j));
 end
+%{
 for j=1:size(body_seg_L_1,3)
     figure(1);
     imshow(body_seg_L_6(:,:,j), []);
@@ -125,6 +131,7 @@ for j=1:size(body_seg_L_1,3)
     imshow(body_seg_L_15(:,:,j), []);
     export_fig(sprintf('body_seg_L_15_%d.png', j));
 end
+%}
 
 %% Step2: Rigid registration (Slicer)
 

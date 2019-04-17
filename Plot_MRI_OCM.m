@@ -1,6 +1,6 @@
 %Plot OCM and MRI figures together
 % ! Run after "vis_DVF_Difference.m" to get mri_runA,mri_runB,mri_runC
-num_subject = 5;
+num_subject = 6;
 xtl_time = {{'Before';'water intake'} {'Shortly after';'water intake'} {'10 min after';'water intake'}};
 
 %number of datapoints
@@ -21,25 +21,26 @@ C = linspecer(num_subject);
 %Color: Blue; Red
 Color_my = vega20c;
 
-
+%% Set parameter name
+%param_name = ('r_c_d');
 %% Import OCM data
 ocm_runA = zeros(1,num_subject*3);
 ocm_runB = zeros(1,num_subject*3);
 ocm_runC = zeros(1,num_subject*3);
 
-cd('C:\Users\jihun\Documents\US_MRI');
+cd('C:\Users\Kwon\Documents\MATLAB\PCA\OCM_Analysis');
 mean_square_diff = zeros(30,num_subject);
 %mean_square_diff = xlsread('DataForFigures.xlsx',1);
 %mean_square_diff = xlsread('DataForFigures_300_800FOV_s3_3401.xlsx',1);
-mean_square_diff = xlsread('DataForFigures_300_900FOV_s3_3401.xlsx',1);
+mean_square_diff = xlsread('DataForFigures_300_800FOV.xlsx',1);
 %mean_square_diff = xlsread('DataForFigures_300_700FOV_s3_3401_hilbert_NoNorm.xlsx',1);
-traces = xlsread('DataForFigures.xlsx',2);
-cd('C:\Users\jihun\Documents\MATLAB\PCA');
+%traces = xlsread('DataForFigures.xlsx',2);
+cd('C:\Users\Kwon\Documents\MATLAB\PCA\OCM_Analysis');
 
 for sub = 1:num_subject
-    ocm_runA(1+(sub-1)*5:sub*5) = mean_square_diff(26:30,3+(sub-1)*3); %Before water
-    ocm_runB(1+(sub-1)*5:sub*5) = mean_square_diff(26:30,4+(sub-1)*3); %Shortly after water
-    ocm_runC(1+(sub-1)*5:sub*5) = mean_square_diff(26:30,5+(sub-1)*3); %10 min after water
+    ocm_runA(1+(sub-1)*5:sub*5) = mean_square_diff(25:29,1+(sub-1)*3); %Before water
+    ocm_runB(1+(sub-1)*5:sub*5) = mean_square_diff(25:29,2+(sub-1)*3); %Shortly after water
+    ocm_runC(1+(sub-1)*5:sub*5) = mean_square_diff(25:29,3+(sub-1)*3); %10 min after water
 end
 
 %% Before removing outliers, plot normalized data
@@ -84,6 +85,7 @@ if strcmp(param_name,'r_c_d')
     s2r1A = num_A; s2r1B = num_B; s2r1C = num_C;
     s2r2A = num_A; s2r2B = num_B; s2r2C = num_C;
     s3r1A = num_A; s3r1B = num_B; s3r1C = num_C;
+    s3r2A = num_A; s3r2B = num_B; s3r2C = num_C;
 elseif strcmp(param_name,'r_c_r_d')
     %Manually define outliers here (outlier is detected from Box and whiskers plot)
 %     outlier_A = [4,3,2];  %S1r1:3
@@ -102,14 +104,15 @@ elseif strcmp(param_name,'r_c_r_d')
     s2r1A = num_A; s2r1B = num_B - 1; s2r1C = num_C;
     s2r2A = num_A; s2r2B = num_B; s2r2C = num_C;
     s3r1A = num_A; s3r1B = num_B; s3r1C = num_C - 1;
+    s3r2A = num_A; s3r2B = num_B; s3r2C = num_C;
 end
 
 
 
 %Each subject, number of data points left.
-num_array_A = [s1r1A,s1r2A,s2r1A,s2r2A,s3r1A];
-num_array_B = [s1r1B,s1r2B,s2r1B,s2r2B,s3r1B];
-num_array_C = [s1r1C,s1r2C,s2r1C,s2r2C,s3r1C];
+num_array_A = [s1r1A,s1r2A,s2r1A,s2r2A,s3r1A,s3r2A];
+num_array_B = [s1r1B,s1r2B,s2r1B,s2r2B,s3r1B,s3r2B];
+num_array_C = [s1r1C,s1r2C,s2r1C,s2r2C,s3r1C,s3r2C];
 
 if (size(ocm_runA,2)==num_subject*4)
     for cnt = 1:length(outlier_A)
@@ -246,7 +249,7 @@ y = a*x+b;
 
 figure;
 %markers = {'o', 'o', 's', 's','^'};
-markers = {'o', 'd', 's', 'v','^'};
+markers = {'o', 'd', 's', 'v','^','v'};
 numA_tot = 0;
 numB_tot = 0;
 numC_tot = 0;
@@ -298,7 +301,7 @@ y = a*x+b;
 %% Plot with different shape
 figure;
 %markers = {'o', 'o', 's', 's','^'};
-markers = {'o', 'd', 's', 'v','^'};
+markers = {'o', 'd', 's', 'v','^','v'};
 numA_tot = 0;
 numB_tot = 0;
 numC_tot = 0;

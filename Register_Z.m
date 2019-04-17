@@ -6,7 +6,7 @@ function [] = Register_Z(sub_run)
 %Adjust z position of after and 10min after to before.
 adjustZ_bef_aft = -125.884;
 adjustZ_bef_10m = -20.867;
-adjustZ_bef_10m_14 = -20.867+14; %14th scan was not registered well. Soanually adjust.
+adjustZ_bef_10m_14 = -20.867-3; %14th scan was not registered well. So manually adjust.
 
 %sub_run = 's1r1';
 
@@ -84,271 +84,289 @@ elseif strcmp(sub_run,'s2r2')
                 "C:\Users\jihun\Documents\US_MRI\Subject_02_20181220\Series 023 [MR - AX T1FS 3D TR 3 23 GRAPPA 20180927]",
                 "C:\Users\jihun\Documents\US_MRI\Subject_02_20181220\Series 025 [MR - AX T1FS 3D TR 3 23 GRAPPA 20180927]",
                 "C:\Users\jihun\Documents\US_MRI\Subject_02_20181220\Series 027 [MR - AX T1FS 3D TR 3 23 GRAPPA 20180927]",];
-                
+elseif strcmp(sub_run,'s3r2')
+    %s2r2
+    offset_Z = [0 0 0 0 0 11 11 11 11 11 11 11 11 11 11];
+    dir_name = ["/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0005",
+                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0006",
+                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0008",
+                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0010",
+                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0012",
+                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0015",
+                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0016",
+                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0018",
+                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0020",
+                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0022",
+                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0025",
+                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0026",
+                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0028",
+                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0030",
+                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0032",];
 end
             
             
-for tp = 1:15
-    cd(dir_name(tp));
-    mkdir dicom_new
-    dicomlist = dir(fullfile(dir_name(tp),'*.IMA'));
-    
-    if strcmp(sub_run,'s2r2')
-        dicomlist = dir(fullfile(dir_name(tp),'*.dcm'));
+if strcmp(sub_run,'s3r1') == 0
+    for tp = 1:15
+        cd(dir_name(tp));
+        mkdir dicom_new
+        dicomlist = dir(fullfile(dir_name(tp),'*.IMA'));
+
+        if strcmp(sub_run,'s2r2')
+            dicomlist = dir(fullfile(dir_name(tp),'*.dcm'));
+        end
+
+        %clearvars -except tp offset_Z dir_name dicomlist
+        for cnt = 1 : numel(dicomlist)
+            meta = dicominfo(dicomlist(cnt).name);
+            pri1015 = meta.Private_0019_1015;
+            pos = meta.ImagePositionPatient;
+            pos_new = [pos(1);pos(2);pos(3)+(offset_Z(1)-offset_Z(tp))*2];
+            meta.ImagePositionPatient = pos_new;
+            meta.Private_0019_1015 = pos_new;
+
+            X = dicomread(dicomlist(cnt).name); 
+
+            fname = strcat('MR_',num2str(cnt),'.dcm');
+            cd dicom_new\
+            dicomwrite(X, fname, meta);
+            %dicomwrite(X, fname, meta, 'CreateMode', 'copy');
+            cd ..
+        end
     end
-    
-    %clearvars -except tp offset_Z dir_name dicomlist
+end
+
+
+
+
+%% This part is for "S3r1". Special registration was needed.
+if strcmp(sub_run,'s3r1')
+
+    %{
+    %% After1
+    % Import DICOM
+    dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0014';
+    cd(dir_name);
+    mkdir dicom_new
+    dicomlist = dir(fullfile(dir_name,'*.IMA'));
+
     for cnt = 1 : numel(dicomlist)
         meta = dicominfo(dicomlist(cnt).name);
         pri1015 = meta.Private_0019_1015;
         pos = meta.ImagePositionPatient;
-        pos_new = [pos(1);pos(2);pos(3)+(offset_Z(1)-offset_Z(tp))*2];
+        pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_aft];
         meta.ImagePositionPatient = pos_new;
-        meta.Private_0019_1015 = pos_new;
+        meta.Private_0019_1015  = pos_new;
 
         X = dicomread(dicomlist(cnt).name); 
 
         fname = strcat('MR_',num2str(cnt),'.dcm');
         cd dicom_new\
-        dicomwrite(X, fname, meta);
-        %dicomwrite(X, fname, meta, 'CreateMode', 'copy');
+        dicomwrite(X, fname, meta, 'CreateMode', 'copy');
+        cd ..
+    end
+
+    %% After2
+    dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0015';
+    cd(dir_name);
+    mkdir dicom_new
+    dicomlist = dir(fullfile(dir_name,'*.IMA'));
+
+    for cnt = 1 : numel(dicomlist)
+        meta = dicominfo(dicomlist(cnt).name);
+        pri1015 = meta.Private_0019_1015;
+        pos = meta.ImagePositionPatient;
+        pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_aft];
+        meta.ImagePositionPatient = pos_new;
+        meta.Private_0019_1015  = pos_new;
+
+        X = dicomread(dicomlist(cnt).name); 
+
+        fname = strcat('MR_',num2str(cnt),'.dcm');
+        cd dicom_new\
+        dicomwrite(X, fname, meta, 'CreateMode', 'copy');
         cd ..
     end
 
 
+    %% After3
+    % Import DICOM
+    dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0017';
+    cd(dir_name);
+    mkdir dicom_new
+    dicomlist = dir(fullfile(dir_name,'*.IMA'));
+
+    for cnt = 1 : numel(dicomlist)
+        meta = dicominfo(dicomlist(cnt).name);
+        pri1015 = meta.Private_0019_1015;
+        pos = meta.ImagePositionPatient;
+        pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_aft];
+        meta.ImagePositionPatient = pos_new;
+        meta.Private_0019_1015  = pos_new;
+
+        X = dicomread(dicomlist(cnt).name); 
+
+        fname = strcat('MR_',num2str(cnt),'.dcm');
+        cd dicom_new\
+        dicomwrite(X, fname, meta, 'CreateMode', 'copy');
+        cd ..
+    end
+
+    %% After4
+    dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0019';
+    cd(dir_name);
+    mkdir dicom_new
+    dicomlist = dir(fullfile(dir_name,'*.IMA'));
+
+    for cnt = 1 : numel(dicomlist)
+        meta = dicominfo(dicomlist(cnt).name);
+        pri1015 = meta.Private_0019_1015;
+        pos = meta.ImagePositionPatient;
+        pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_aft];
+        meta.ImagePositionPatient = pos_new;
+        meta.Private_0019_1015  = pos_new;
+
+        X = dicomread(dicomlist(cnt).name); 
+
+        fname = strcat('MR_',num2str(cnt),'.dcm');
+        cd dicom_new\
+        dicomwrite(X, fname, meta, 'CreateMode', 'copy');
+        cd ..
+    end
+
+    %% After5
+    dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0021';
+    cd(dir_name);
+    mkdir dicom_new
+    dicomlist = dir(fullfile(dir_name,'*.IMA'));
+
+    for cnt = 1 : numel(dicomlist)
+        meta = dicominfo(dicomlist(cnt).name);
+        pri1015 = meta.Private_0019_1015;
+        pos = meta.ImagePositionPatient;
+        pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_aft];
+        meta.ImagePositionPatient = pos_new;
+        meta.Private_0019_1015  = pos_new;
+
+        X = dicomread(dicomlist(cnt).name); 
+
+        fname = strcat('MR_',num2str(cnt),'.dcm');
+        cd dicom_new\
+        dicomwrite(X, fname, meta, 'CreateMode', 'copy');
+        cd ..
+    end
+
+
+    %% 10min 1
+    dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0024';
+    cd(dir_name);
+    mkdir dicom_new
+    dicomlist = dir(fullfile(dir_name,'*.IMA'));
+
+    for cnt = 1 : numel(dicomlist)
+        meta = dicominfo(dicomlist(cnt).name);
+        pri1015 = meta.Private_0019_1015;
+        pos = meta.ImagePositionPatient;
+        pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_10m];
+        meta.ImagePositionPatient = pos_new;
+        meta.Private_0019_1015  = pos_new;
+
+        X = dicomread(dicomlist(cnt).name); 
+
+        fname = strcat('MR_',num2str(cnt),'.dcm');
+        cd dicom_new\
+        dicomwrite(X, fname, meta, 'CreateMode', 'copy');
+        cd ..
+    end
+
+
+    %% 10min 2
+    dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0025';
+    cd(dir_name);
+    mkdir dicom_new
+    dicomlist = dir(fullfile(dir_name,'*.IMA'));
+
+    for cnt = 1 : numel(dicomlist)
+        meta = dicominfo(dicomlist(cnt).name);
+        pri1015 = meta.Private_0019_1015;
+        pos = meta.ImagePositionPatient;
+        pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_10m];
+        meta.ImagePositionPatient = pos_new;
+        meta.Private_0019_1015  = pos_new;
+
+        X = dicomread(dicomlist(cnt).name); 
+
+        fname = strcat('MR_',num2str(cnt),'.dcm');
+        cd dicom_new\
+        dicomwrite(X, fname, meta, 'CreateMode', 'copy');
+        cd ..
+    end
+
+
+    %% 10min 3
+    dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0027';
+    cd(dir_name);
+    mkdir dicom_new
+    dicomlist = dir(fullfile(dir_name,'*.IMA'));
+
+    for cnt = 1 : numel(dicomlist)
+        meta = dicominfo(dicomlist(cnt).name);
+        pri1015 = meta.Private_0019_1015;
+        pos = meta.ImagePositionPatient;
+        pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_10m];
+        meta.ImagePositionPatient = pos_new;
+        meta.Private_0019_1015  = pos_new;
+
+        X = dicomread(dicomlist(cnt).name); 
+
+        fname = strcat('MR_',num2str(cnt),'.dcm');
+        cd dicom_new\
+        dicomwrite(X, fname, meta, 'CreateMode', 'copy');
+        cd ..
+    end
+    %}
+
+    %% 10min 4
+    dir_name = 'C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0029';
+    cd(dir_name);
+    mkdir dicom_new
+    dicomlist = dir(fullfile(dir_name,'*.IMA'));
+
+    for cnt = 1 : numel(dicomlist)
+        meta = dicominfo(dicomlist(cnt).name);
+        pri1015 = meta.Private_0019_1015;
+        pos = meta.ImagePositionPatient;
+        pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_10m_14];
+        meta.ImagePositionPatient = pos_new;
+        meta.Private_0019_1015  = pos_new;
+
+        X = dicomread(dicomlist(cnt).name); 
+
+        fname = strcat('MR_',num2str(cnt),'.dcm');
+        cd dicom_new\
+        dicomwrite(X, fname, meta, 'CreateMode', 'copy');
+        cd ..
+    end
+    %{
+    %% 10min 5
+    dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0031';
+    cd(dir_name);
+    mkdir dicom_new
+    dicomlist = dir(fullfile(dir_name,'*.IMA'));
+
+    for cnt = 1 : numel(dicomlist)
+        meta = dicominfo(dicomlist(cnt).name);
+        pri1015 = meta.Private_0019_1015;
+        pos = meta.ImagePositionPatient;
+        pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_10m];
+        meta.ImagePositionPatient = pos_new;
+        meta.Private_0019_1015  = pos_new;
+
+        X = dicomread(dicomlist(cnt).name); 
+
+        fname = strcat('MR_',num2str(cnt),'.dcm');
+        cd dicom_new\
+        dicomwrite(X, fname, meta, 'CreateMode', 'copy');
+        cd ..
+    end
+    %}
 end
-
-
-
-
-
-%{
-
-%% After1
-
-% Import DICOM
-dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0014';
-cd(dir_name);
-mkdir dicom_new
-dicomlist = dir(fullfile(dir_name,'*.IMA'));
-
-for cnt = 1 : numel(dicomlist)
-    meta = dicominfo(dicomlist(cnt).name);
-    pri1015 = meta.Private_0019_1015;
-    pos = meta.ImagePositionPatient;
-    pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_aft];
-    meta.ImagePositionPatient = pos_new;
-    meta.Private_0019_1015  = pos_new;
-    
-    X = dicomread(dicomlist(cnt).name); 
-
-    fname = strcat('MR_',num2str(cnt),'.dcm');
-    cd dicom_new\
-    dicomwrite(X, fname, meta, 'CreateMode', 'copy');
-    cd ..
-end
-
-%% After2
-dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0015';
-cd(dir_name);
-mkdir dicom_new
-dicomlist = dir(fullfile(dir_name,'*.IMA'));
-
-for cnt = 1 : numel(dicomlist)
-    meta = dicominfo(dicomlist(cnt).name);
-    pri1015 = meta.Private_0019_1015;
-    pos = meta.ImagePositionPatient;
-    pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_aft];
-    meta.ImagePositionPatient = pos_new;
-    meta.Private_0019_1015  = pos_new;
-    
-    X = dicomread(dicomlist(cnt).name); 
-
-    fname = strcat('MR_',num2str(cnt),'.dcm');
-    cd dicom_new\
-    dicomwrite(X, fname, meta, 'CreateMode', 'copy');
-    cd ..
-end
-
-
-%% After3
-% Import DICOM
-dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0017';
-cd(dir_name);
-mkdir dicom_new
-dicomlist = dir(fullfile(dir_name,'*.IMA'));
-
-for cnt = 1 : numel(dicomlist)
-    meta = dicominfo(dicomlist(cnt).name);
-    pri1015 = meta.Private_0019_1015;
-    pos = meta.ImagePositionPatient;
-    pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_aft];
-    meta.ImagePositionPatient = pos_new;
-    meta.Private_0019_1015  = pos_new;
-    
-    X = dicomread(dicomlist(cnt).name); 
-
-    fname = strcat('MR_',num2str(cnt),'.dcm');
-    cd dicom_new\
-    dicomwrite(X, fname, meta, 'CreateMode', 'copy');
-    cd ..
-end
-
-%% After4
-dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0019';
-cd(dir_name);
-mkdir dicom_new
-dicomlist = dir(fullfile(dir_name,'*.IMA'));
-
-for cnt = 1 : numel(dicomlist)
-    meta = dicominfo(dicomlist(cnt).name);
-    pri1015 = meta.Private_0019_1015;
-    pos = meta.ImagePositionPatient;
-    pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_aft];
-    meta.ImagePositionPatient = pos_new;
-    meta.Private_0019_1015  = pos_new;
-    
-    X = dicomread(dicomlist(cnt).name); 
-
-    fname = strcat('MR_',num2str(cnt),'.dcm');
-    cd dicom_new\
-    dicomwrite(X, fname, meta, 'CreateMode', 'copy');
-    cd ..
-end
-
-%% After5
-dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0021';
-cd(dir_name);
-mkdir dicom_new
-dicomlist = dir(fullfile(dir_name,'*.IMA'));
-
-for cnt = 1 : numel(dicomlist)
-    meta = dicominfo(dicomlist(cnt).name);
-    pri1015 = meta.Private_0019_1015;
-    pos = meta.ImagePositionPatient;
-    pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_aft];
-    meta.ImagePositionPatient = pos_new;
-    meta.Private_0019_1015  = pos_new;
-    
-    X = dicomread(dicomlist(cnt).name); 
-
-    fname = strcat('MR_',num2str(cnt),'.dcm');
-    cd dicom_new\
-    dicomwrite(X, fname, meta, 'CreateMode', 'copy');
-    cd ..
-end
-
-
-%% 10min 1
-dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0024';
-cd(dir_name);
-mkdir dicom_new
-dicomlist = dir(fullfile(dir_name,'*.IMA'));
-
-for cnt = 1 : numel(dicomlist)
-    meta = dicominfo(dicomlist(cnt).name);
-    pri1015 = meta.Private_0019_1015;
-    pos = meta.ImagePositionPatient;
-    pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_10m];
-    meta.ImagePositionPatient = pos_new;
-    meta.Private_0019_1015  = pos_new;
-    
-    X = dicomread(dicomlist(cnt).name); 
-
-    fname = strcat('MR_',num2str(cnt),'.dcm');
-    cd dicom_new\
-    dicomwrite(X, fname, meta, 'CreateMode', 'copy');
-    cd ..
-end
-
-
-%% 10min 2
-dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0025';
-cd(dir_name);
-mkdir dicom_new
-dicomlist = dir(fullfile(dir_name,'*.IMA'));
-
-for cnt = 1 : numel(dicomlist)
-    meta = dicominfo(dicomlist(cnt).name);
-    pri1015 = meta.Private_0019_1015;
-    pos = meta.ImagePositionPatient;
-    pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_10m];
-    meta.ImagePositionPatient = pos_new;
-    meta.Private_0019_1015  = pos_new;
-    
-    X = dicomread(dicomlist(cnt).name); 
-
-    fname = strcat('MR_',num2str(cnt),'.dcm');
-    cd dicom_new\
-    dicomwrite(X, fname, meta, 'CreateMode', 'copy');
-    cd ..
-end
-
-
-%% 10min 3
-dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0027';
-cd(dir_name);
-mkdir dicom_new
-dicomlist = dir(fullfile(dir_name,'*.IMA'));
-
-for cnt = 1 : numel(dicomlist)
-    meta = dicominfo(dicomlist(cnt).name);
-    pri1015 = meta.Private_0019_1015;
-    pos = meta.ImagePositionPatient;
-    pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_10m];
-    meta.ImagePositionPatient = pos_new;
-    meta.Private_0019_1015  = pos_new;
-    
-    X = dicomread(dicomlist(cnt).name); 
-
-    fname = strcat('MR_',num2str(cnt),'.dcm');
-    cd dicom_new\
-    dicomwrite(X, fname, meta, 'CreateMode', 'copy');
-    cd ..
-end
-
-
-%% 10min 4
-dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0029';
-cd(dir_name);
-mkdir dicom_new
-dicomlist = dir(fullfile(dir_name,'*.IMA'));
-
-for cnt = 1 : numel(dicomlist)
-    meta = dicominfo(dicomlist(cnt).name);
-    pri1015 = meta.Private_0019_1015;
-    pos = meta.ImagePositionPatient;
-    pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_10m_14];
-    meta.ImagePositionPatient = pos_new;
-    meta.Private_0019_1015  = pos_new;
-    
-    X = dicomread(dicomlist(cnt).name); 
-
-    fname = strcat('MR_',num2str(cnt),'.dcm');
-    cd dicom_new\
-    dicomwrite(X, fname, meta, 'CreateMode', 'copy');
-    cd ..
-end
-
-%% 10min 5
-dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0031';
-cd(dir_name);
-mkdir dicom_new
-dicomlist = dir(fullfile(dir_name,'*.IMA'));
-
-for cnt = 1 : numel(dicomlist)
-    meta = dicominfo(dicomlist(cnt).name);
-    pri1015 = meta.Private_0019_1015;
-    pos = meta.ImagePositionPatient;
-    pos_new = [pos(1);pos(2);pos(3)+adjustZ_bef_10m];
-    meta.ImagePositionPatient = pos_new;
-    meta.Private_0019_1015  = pos_new;
-    
-    X = dicomread(dicomlist(cnt).name); 
-
-    fname = strcat('MR_',num2str(cnt),'.dcm');
-    cd dicom_new\
-    dicomwrite(X, fname, meta, 'CreateMode', 'copy');
-    cd ..
-end
-%}
