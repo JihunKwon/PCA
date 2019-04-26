@@ -11,8 +11,8 @@ cd(base_name);
 numofsubject = 6;
 %param_name = ('trans_subsamp111_maxiter200');
 %param_name = ('trans_subsamp221_maxiter200');
-param_name = ('r_c_d');
-%param_name = ('r_c_r_d');
+%param_name = ('r_c_d');
+param_name = ('r_c_r_d');
 %param_name = ('r_c_r_c_d');
 %% Calculate average of vector scolar 
 
@@ -69,7 +69,7 @@ boxplot(ave_all, g,'Labels',{'Befor Water','Shortly After Water','10 min After W
 ylabel('Average of Vector Scalar');
 set(gcf, 'Color', 'w');
 ylim([y_min y_max]);
-savename = strcat('Ave_DVF_',param_name,'.tif');
+savename = strcat('Ave_DVF_',param_name,'.png');
 saveas(gcf,savename);
 export_fig((savename), '-q101')
 %}
@@ -84,7 +84,7 @@ boxplot(ave_all_root, g,'Labels',{'Befor water intake','Shortly after water inta
 ylabel('Average of Vector Scalar');
 set(gcf, 'Color', 'w');
 ylim([y_min y_max_root]);
-savename = strcat('Ave_DVF_root_',param_name,'.tif');
+savename = strcat('Ave_DVF_root_',param_name,'.png');
 saveas(gcf,savename);
 export_fig((savename), '-q101')
 
@@ -135,6 +135,6 @@ xlim([10 14]);
 xticks([10 11 12 13 14]);
 ylim([y_min y_max_root]);
 set(gcf, 'Color', 'w');
-savename = strcat('Ave_DVF_Dist_root_',param_name,'.tif');
+savename = strcat('Ave_DVF_Dist_root_',param_name,'.png');
 saveas(gcf,savename);
 export_fig((savename), '-q101')

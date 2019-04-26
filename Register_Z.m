@@ -13,6 +13,7 @@ adjustZ_bef_10m_14 = -20.867-3; %14th scan was not registered well. So manually 
 if strcmp(sub_run,'s1r1')
     %s1r1
     offset_Z = [11 9 8 7 8 9 2 2 2 3 13 8 12 13 14];
+    offset_lat = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
     dir_name = ["C:\Users\jihun\Documents\US_MRI\Subject_01_20180928\AX_T1FS_3D_TR_3_23_GRAPPA_RUN1_0027",
                 "C:\Users\jihun\Documents\US_MRI\Subject_01_20180928\AX_T1FS_3D_TR_3_23_GRAPPA_RUN1_0028",
                 "C:\Users\jihun\Documents\US_MRI\Subject_01_20180928\AX_T1FS_3D_TR_3_23_GRAPPA_RUN1_0030",
@@ -32,6 +33,7 @@ if strcmp(sub_run,'s1r1')
 elseif strcmp(sub_run,'s1r2')
     %s1r2
     offset_Z = [13 13 13 12 14 15 12 14 15 14 16 15 18 15 17];
+    offset_lat = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
     dir_name = ["C:\Users\jihun\Documents\US_MRI\Subject_01_20181102\2",
                 "C:\Users\jihun\Documents\US_MRI\Subject_01_20181102\3",
                 "C:\Users\jihun\Documents\US_MRI\Subject_01_20181102\5",
@@ -51,6 +53,7 @@ elseif strcmp(sub_run,'s1r2')
 elseif strcmp(sub_run,'s2r1')
     %s2r1
     offset_Z = [7 8 8 7 6 11 13 11 12 11 9 11 10 12 11];
+    offset_lat = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
     dir_name = ["C:\Users\jihun\Documents\US_MRI\Subject_02_20181102\3",
                 "C:\Users\jihun\Documents\US_MRI\Subject_02_20181102\4",
                 "C:\Users\jihun\Documents\US_MRI\Subject_02_20181102\6",
@@ -69,6 +72,7 @@ elseif strcmp(sub_run,'s2r1')
 elseif strcmp(sub_run,'s2r2')
     %s2r2
     offset_Z = [10 12 11 11 10 8 10 12 13 15 18 17 16 18 17];
+    offset_lat = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
     dir_name = ["C:\Users\jihun\Documents\US_MRI\Subject_02_20181220\Series 002 [MR - AX T1FS 3D TR 3 23 GRAPPA 20180927]",
                 "C:\Users\jihun\Documents\US_MRI\Subject_02_20181220\Series 003 [MR - AX T1FS 3D TR 3 23 GRAPPA 20180927]",
                 "C:\Users\jihun\Documents\US_MRI\Subject_02_20181220\Series 005 [MR - AX T1FS 3D TR 3 23 GRAPPA 20180927]",
@@ -86,22 +90,25 @@ elseif strcmp(sub_run,'s2r2')
                 "C:\Users\jihun\Documents\US_MRI\Subject_02_20181220\Series 027 [MR - AX T1FS 3D TR 3 23 GRAPPA 20180927]",];
 elseif strcmp(sub_run,'s3r2')
     %s2r2
-    offset_Z = [0 0 0 0 0 11 11 11 11 11 11 11 11 11 11];
-    dir_name = ["/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0005",
-                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0006",
-                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0008",
-                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0010",
-                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0012",
-                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0015",
-                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0016",
-                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0018",
-                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0020",
-                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0022",
-                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0025",
-                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0026",
-                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0028",
-                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0030",
-                "/Users/Kwon/Documents/Subject_03_20190320/AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0032",];
+    %offset_Z = [0 0 2 2 2 11 11 11 11 11 11 11 11 11 11];
+    offset_Z = [0 0 2 2 2 18 18 18 18 18 18 18 18 18 18]; %Increase of this value shifts to the inferior direction
+    offset_lat = [0 0 0 0 0 -10 -10 -10 -10 -10 -10 -10 -10 -10 -10]; %Negative Value shifts to the right direction
+    %offset_lat = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
+    dir_name = ["C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0005",
+                "C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0006",
+                "C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0008",
+                "C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0010",
+                "C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0012",
+                "C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0015",
+                "C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0016",
+                "C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0018",
+                "C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0020",
+                "C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0022",
+                "C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0025",
+                "C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0026",
+                "C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0028",
+                "C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0030",
+                "C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190320\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0032",];
 end
             
             
@@ -115,12 +122,15 @@ if strcmp(sub_run,'s3r1') == 0
             dicomlist = dir(fullfile(dir_name(tp),'*.dcm'));
         end
 
+        if tp>5
+           %display('here')
+        end
         %clearvars -except tp offset_Z dir_name dicomlist
         for cnt = 1 : numel(dicomlist)
             meta = dicominfo(dicomlist(cnt).name);
             pri1015 = meta.Private_0019_1015;
             pos = meta.ImagePositionPatient;
-            pos_new = [pos(1);pos(2);pos(3)+(offset_Z(1)-offset_Z(tp))*2];
+            pos_new = [pos(1)+(offset_lat(1)-offset_lat(tp));pos(2);pos(3)+(offset_Z(1)-offset_Z(tp))*2];
             meta.ImagePositionPatient = pos_new;
             meta.Private_0019_1015 = pos_new;
 
@@ -326,6 +336,7 @@ if strcmp(sub_run,'s3r1')
     %}
 
     %% 10min 4
+    %{
     dir_name = 'C:\Users\Kwon\Documents\Panc_OCM\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0029';
     cd(dir_name);
     mkdir dicom_new
@@ -346,6 +357,7 @@ if strcmp(sub_run,'s3r1')
         dicomwrite(X, fname, meta, 'CreateMode', 'copy');
         cd ..
     end
+    %}
     %{
     %% 10min 5
     dir_name = 'C:\Users\jihun\Documents\US_MRI\Subject_03_20190228\AX_T1FS_3D_TR_3_23_GRAPPA_20180927_0031';

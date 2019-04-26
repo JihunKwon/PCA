@@ -2,10 +2,10 @@
 close all
 num_sub = 3; %number of subjects
  
-cd('C:\Users\jihun\Documents\US_MRI');
+cd('C:\Users\Kwon\Documents\MATLAB\PCA\DVH');
 OAR_vol = xlsread('Planning Results_Escalation_vol.xlsx',1);
 %OAR_vol = xlsread('Planning Results_Escalation_vol2.xlsx',1);
-cd('C:\Users\jihun\Documents\MATLAB\PCA');
+%cd('C:\Users\Kwon\Documents\MATLAB\PCA\DVH');
 
 %Initialize parameters
 xtl_time = {{'Before';'water intake'} {'Shortly after';'water intake'} {'10 min after';'water intake'}};
@@ -87,7 +87,7 @@ boxplot(PTV3, g);
 title('PTV3, V60'); ylabel('Coverage (%)'); ylim([91 100]);
 
 set(gcf, 'Color', 'w');
-export_fig BoxPlots_PTV.tif -q101
+export_fig BoxPlots_PTV.png -q101
 export_fig BoxPlots_PTV.pdf
 
 %Plot Duodenum
@@ -107,7 +107,7 @@ boxplot(Duo_v40, g); hold on;
 xl = get(gca, 'XLim'); line( xl, [0.5 0.5],'Color','black','LineStyle','--');
 title('Duodenum, V40'); ylabel('Volume (cc)');  
 set(gcf, 'Color', 'w');
-export_fig BoxPlots_Duo.tif -q101
+export_fig BoxPlots_Duo.png -q101
 export_fig BoxPlots_Duo.pdf
 
 %Plot Stomach
@@ -127,7 +127,7 @@ boxplot(Stom_v40, g); hold on;
 xl = get(gca, 'XLim'); line( xl, [0.5 0.5],'Color','black','LineStyle','--');
 title('Stomach, V40'); ylabel('Volume (cc)');
 set(gcf, 'Color', 'w');  
-export_fig BoxPlots_Stom.tif -q101
+export_fig BoxPlots_Stom.png -q101
 export_fig BoxPlots_Stom.pdf
 %}
 
@@ -169,7 +169,7 @@ title('PTV3, V60'); ylabel('Coverage (%)'); ylim([91 100.5]);
 h = my_xticklabels(gca,[1 2 3],xtl_time);
 
 set(gcf, 'Color', 'w');
-export_fig ScatPlots_PTV.tif -q101
+export_fig ScatPlots_PTV.png -q101
 export_fig ScatPlots_PTV.pdf
 
 %Plot Duodenum
@@ -183,7 +183,8 @@ hold on;
 xl = get(gca, 'XLim'); line( xl, [3 3],'Color','black','LineStyle','--');
 title('Duodenum, V30'); ylabel('Volume (cc)');
 h = my_xticklabels(gca,[1 2 3],xtl_time);
-ylim([0 3.5]);
+%ylim([0 3.5]);
+ylim([0 ceil(max(max(Duo_v30_re)))]);
 
 subaxis(1,3,2,'SpacingHoriz',0.08,'MR',0.06,'ML',0.1,'MT',0.15);
 ydata = Duo_v35_re; %Here define PTV or OAR
@@ -194,7 +195,8 @@ hold on;
 xl = get(gca, 'XLim'); line( xl, [1 1],'Color','black','LineStyle','--');
 title('Duodenum, V35'); ylabel('Volume (cc)');
 h = my_xticklabels(gca,[1 2 3],xtl_time);
-ylim([0 3.5]);
+%ylim([0 3.5]);
+ylim([0 ceil(max(max(Duo_v35_re)))]);
 
 subaxis(1,3,3,'SpacingHoriz',0.08,'MR',0.06,'ML',0.1,'MT',0.15);
 ydata = Duo_v40_re; %Here define PTV or OAR
@@ -205,10 +207,11 @@ hold on;
 xl = get(gca, 'XLim'); line( xl, [0.5 0.5],'Color','black','LineStyle','--');
 title('Duodenum, V40'); ylabel('Volume (cc)');
 h = my_xticklabels(gca,[1 2 3],xtl_time);
-ylim([0 3.5]);
+%ylim([0 3.5]);
+ylim([0 ceil(max(max(Duo_v40_re)))]);
 
 set(gcf, 'Color', 'w');
-export_fig ScatPlots_Duo.tif -q101
+export_fig ScatPlots_Duo.png -q101
 export_fig ScatPlots_Duo.pdf
 
 %Plot Stomach
@@ -222,7 +225,8 @@ hold on;
 xl = get(gca, 'XLim'); line( xl, [2 2],'Color','black','LineStyle','--');
 title('Stomach, V30'); ylabel('Volume (cc)');
 h = my_xticklabels(gca,[1 2 3],xtl_time);
-ylim([0 9]);
+%ylim([0 9]);
+ylim([0 ceil(max(max(Stom_v30_re)))]);
 
 subaxis(1,3,2,'SpacingHoriz',0.08,'MR',0.06,'ML',0.1,'MT',0.15);
 ydata = Stom_v35_re; %Here define PTV or OAR
@@ -233,7 +237,8 @@ hold on;
 xl = get(gca, 'XLim'); line( xl, [1 1],'Color','black','LineStyle','--');
 title('Stomach, V35'); ylabel('Volume (cc)');
 h = my_xticklabels(gca,[1 2 3],xtl_time);
-ylim([0 9]);
+%ylim([0 9]);
+ylim([0 ceil(max(max(Stom_v35_re)))]);
 
 subaxis(1,3,3,'SpacingHoriz',0.08,'MR',0.06,'ML',0.1,'MT',0.15);
 ydata = Stom_v40_re; %Here define PTV or OAR
@@ -244,10 +249,11 @@ hold on;
 xl = get(gca, 'XLim'); line( xl, [0.5 0.5],'Color','black','LineStyle','--');
 title('Stomach, V40'); ylabel('Volume (cc)');
 h = my_xticklabels(gca,[1 2 3],xtl_time);
-ylim([0 9]);
+%ylim([0 9]);
+ylim([0 ceil(max(max(Stom_v40_re)))]);
 
 set(gcf, 'Color', 'w');
-export_fig ScatPlots_Stom.tif -q101
+export_fig ScatPlots_Stom.png -q101
 export_fig ScatPlots_Stom.pdf
 
 %% Plot summary (PTV1, StomachV30, DuodenumV30)
@@ -262,7 +268,8 @@ hold on;
 xl = get(gca, 'XLim'); line( xl, [2 2],'Color','black','LineStyle','--');
 title('Stomach, V30'); ylabel('Volume (cc)');
 h = my_xticklabels(gca,[1 2 3],xtl_time);
-ylim([0 9]);
+%ylim([0 9]);
+ylim([0 ceil(max(max(Stom_v30_re)))]);
 
 %Plot Duodenum
 subaxis(1,3,2,'SpacingHoriz',0.05,'MR',0.06,'ML',0.1,'MT',0.15);
@@ -274,7 +281,8 @@ hold on;
 xl = get(gca, 'XLim'); line( xl, [3 3],'Color','black','LineStyle','--');
 title('Duodenum, V30'); ylabel('Volume (cc)');
 h = my_xticklabels(gca,[1 2 3],xtl_time);
-ylim([0 3.5]);
+%ylim([0 3.5]);
+ylim([0 ceil(max(max(Duo_v30_re)))]);
 
 %Plot OCM
 ave_all_ocm_sub = [o_runA_norm_sub o_runB_norm_sub o_runC_norm_sub];
@@ -286,5 +294,5 @@ h = my_xticklabels(gca,[1 2 3],xtl_time);
 ylim([0 1.1]);
 
 set(gcf, 'Color', 'w');
-export_fig ScatPlots_Summary.tif -q101
+export_fig ScatPlots_Summary.png -q101
 export_fig ScatPlots_Summary.pdf
