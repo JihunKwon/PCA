@@ -31,37 +31,7 @@ basefolder_r = strcat(subject_name,'\Cropped\rigid');
 cd(basefolder_r)
 
 %% center of ROI. Change specifically for subject
-if strcmp(basefolder_r,'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_01_20180928\Cropped\rigid')
-    %v1run1 (JB)
-    %center_L = [-30 -20 -20]; %Center for step1
-    center_L = [-30 0 -10]; %Center for step1 [+: Posterior, +:Right, +:Cranior]
-    center_S = [7 0 1]; %Center for step3
-elseif strcmp(basefolder_r, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_01_20181102\Cropped\rigid')
-    %v1run2 (JB)
-    %center_L = [-30 -20 -16];    
-    center_L = [-30 0 -10];
-    center_S = [8 3 0];
-elseif strcmp(basefolder_r, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_02_20181102\Cropped\rigid')
-    %v2run1 (JK)
-    %center_L = [-26 0 4];
-    center_L = [-24 0 2];
-    center_S = [3 -12 -3];
-elseif strcmp(basefolder_r, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_02_20181220\Cropped\rigid')
-    %v2run2 (JK)
-    %center_L = [-8 -16 4]; %X:Vertical, Y:Lateral
-    center_L = [-6 10 2]; %X:Vertical, Y:Lateral
-    center_S = [4 -9 -4];
-elseif strcmp(basefolder_r, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_03_20190228\Cropped\rigid')
-    %v3run1 (NV)
-    %center_L = [-8 -16 7];
-    center_L = [-12 -2 10];
-elseif strcmp(basefolder_r, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_03_20190320\Cropped\rigid')
-    %v3run2 (NV)
-    %center_L = [-8 -16 7];
-    center_L = [-18 0 1];
-else
-    print('No such subject!');
-end
+center_L = get_ROIcenter(subject_name);
 
 %%
 %[Large margins] Length of x,y,z

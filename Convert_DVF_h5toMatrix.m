@@ -25,16 +25,21 @@ end
 %param_name = ('r_c_r_d');
 
 if strcmp(param_name,'r_c_d') || strcmp(param_name,'r_c_r_d')
-    num_voxel = 997920;
+    num_voxel = 997920; % X*Y*Z*3(three dimension of vector field)
 elseif strcmp(param_name,'r_c_r_c_d')
-    %num_voxel = 81600;
     num_voxel = 149040;
+elseif strcmp(param_name,'r_d_c')
+    num_voxel = 29952000; %776160;
+    if (strcmp(subject_name, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_02_20181102') || ...
+            strcmp(subject_name, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_03_20190228'))
+        num_voxel = 25344000; %776160;
+    end
 end
 
 dirname = strcat(subject_name,'\',param_name);
 cd(dirname);
 
-max_num=15;
+max_num=5;
 data = zeros(num_voxel,max_num-1);
 data_x = zeros(num_voxel/3,max_num-1);
 data_y = zeros(num_voxel/3,max_num-1);
@@ -55,6 +60,11 @@ for i=2:max_num %Time points
         filename = strcat('Output vector field (MRML)_trans2_crop_L_deform_',str,'.h5');
     else
         filename = strcat('Output vector field (MRML)_deform_',str,'.h5');
+    end
+    
+    if strcmp(param_name,'r_d_c') %In case of "r_d_c", the DVF needs to be cropped
+        filename = strcat('Output vector field (MRML)_trans_deform_',str,'.h5');
+        
     end
     %h5disp(filename)
     data(:,i-1) = h5read(filename,'/TransformGroup/0/TranformParameters');

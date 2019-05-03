@@ -12,24 +12,29 @@ function []=Crop_DVF(subject_name,param_name)
 %close all
 %clear
 
-x_S = 46; %top to bottom
-y_S = 54; %left to right
-z_S = 20;
+% x_S = 46; %top to bottom
+% y_S = 54; %left to right
+% z_S = 20;
 
 x_L = 84; %top to bottom
 y_L = 110; %left to right
 z_L = 36;
 
-%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20180928');
-%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_01_20181102');
-%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181102');
-%subject_name = ('C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181220');
-
-%param_name = ('trans_subsamp111_maxiter200');
-%param_name = ('trans_subsamp221_maxiter200');
-%param_name = ('r_c_d');
-%param_name = ('r_c_r_c_d');
-%param_name = ('r_c_r_d');
+if strcmp(param_name, 'r_d_c')
+    x_L = 84; %top to bottom
+    y_L = 110; %left to right
+    z_L = 28;
+    
+    x_init = 260;
+    y_init = 320;
+    z_init = 120;
+    if (strcmp(subject_name, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_02_20181102') || ...
+            strcmp(subject_name, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_03_20190228'))
+        x_init = 220;
+        y_init = 320;
+        z_init = 120;
+    end
+end
 
 dirname = strcat(subject_name,'\',param_name);
 cd(dirname);
@@ -48,6 +53,28 @@ elseif strcmp(param_name,'r_c_r_c_d')
     data_x_new = reshape(data_x, [x_S,y_S,z_S,14]);
     data_y_new = reshape(data_y, [x_S,y_S,z_S,14]);
     data_z_new = reshape(data_z, [x_S,y_S,z_S,14]);
+elseif (strcmp(param_name,'r_d_c'))
+    data_x_raw = reshape(data_x, [x_init,y_init,z_init,4]); %First import to original (before cropping) size
+    data_y_raw = reshape(data_y, [x_init,y_init,z_init,4]);
+    data_z_raw = reshape(data_z, [x_init,y_init,z_init,4]);
+    
+    %Next crop the DVF
+    center_L = get_ROIcenter(subject_name);
+    
+    for i = 1:size(data_x_raw,4)
+        data_x_new(:,:,:,i) = data_x_raw(center_L(1)+x_init/2-x_L/2 : center_L(1)+x_init/2+x_L/2 -1, ...
+                                            center_L(2)+y_init/2-y_L/2 : center_L(2)+y_init/2+y_L/2 -1, ...
+                                            center_L(3)+z_init/2-z_L/2 : center_L(3)+z_init/2+z_L/2 -1, i);
+                                        
+        data_y_new(:,:,:,i) = data_y_raw(center_L(1)+x_init/2-x_L/2 : center_L(1)+x_init/2+x_L/2 -1, ...
+                                            center_L(2)+y_init/2-y_L/2 : center_L(2)+y_init/2+y_L/2 -1, ...
+                                            center_L(3)+z_init/2-z_L/2 : center_L(3)+z_init/2+z_L/2 -1, i);
+                                        
+        data_z_new(:,:,:,i) = data_z_raw(center_L(1)+x_init/2-x_L/2 : center_L(1)+x_init/2+x_L/2 -1, ...
+                                            center_L(2)+y_init/2-y_L/2 : center_L(2)+y_init/2+y_L/2 -1, ...
+                                            center_L(3)+z_init/2-z_L/2 : center_L(3)+z_init/2+z_L/2 -1, i);
+    end
+    
 else %No Cropping
     if strcmp(subject_name,'C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181102')
         data_x_new = reshape(data_x, [320,220,120,14]); %v2run1, V1R2:[320,220,120,14]
@@ -65,19 +92,6 @@ data_x_new = permute(data_x_new,[2,1,3,4]);
 data_y_new = permute(data_y_new,[2,1,3,4]);
 data_z_new = permute(data_z_new,[2,1,3,4]);
 
-%% Apply DVF to body surface segmentation
-%{
-[seg_body] = nrrdread2('Output volume_deform_15-label.nrrd');
-
-for time = 1:14
-    data_x_new(:,:,:,time) = data_x_new(:,:,:,time).*seg_body(:,:,:);
-    data_y_new(:,:,:,time) = data_y_new(:,:,:,time).*seg_body(:,:,:);
-    data_z_new(:,:,:,time) = data_z_new(:,:,:,time).*seg_body(:,:,:);
-%     data_x_seg(:,:,:,time) = data_x_new(:,:,:,time).*seg_body(:,:,:);
-%     data_y_seg(:,:,:,time) = data_y_new(:,:,:,time).*seg_body(:,:,:);
-%     data_z_seg(:,:,:,time) = data_z_new(:,:,:,time).*seg_body(:,:,:);
-end
-%}
 %% Calculate Average
 sum_x = zeros(14,1);
 sum_y = zeros(14,1);
@@ -87,7 +101,7 @@ data_x_new = abs(data_x_new);
 data_y_new = abs(data_y_new);
 data_z_new = abs(data_z_new);
 
-for i=1:14
+for i=1:4
     sum_x(i) = sum(sum(sum(data_x_new(:,:,:,i))));
     sum_y(i) = sum(sum(sum(data_y_new(:,:,:,i))));
     sum_z(i) = sum(sum(sum(data_z_new(:,:,:,i))));
