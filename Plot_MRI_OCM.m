@@ -1,6 +1,6 @@
 %Plot OCM and MRI figures together
 % ! Run after "vis_DVF_Difference.m" to get mri_runA,mri_runB,mri_runC
-num_subject = 6;
+num_subject = 5;
 xtl_time = {{'Before';'water intake'} {'Shortly after';'water intake'} {'10 min after';'water intake'}};
 
 %number of datapoints
@@ -29,7 +29,7 @@ ocm_runA = zeros(1,num_subject*3);
 ocm_runB = zeros(1,num_subject*3);
 ocm_runC = zeros(1,num_subject*3);
 
-cd('C:\Users\Kwon\Documents\MATLAB\PCA\OCM_Analysis');
+cd('C:\Users\Kwon\Documents\Panc_OCM');
 mean_square_diff = zeros(30,num_subject);
 %mean_square_diff = xlsread('DataForFigures.xlsx',1);
 %mean_square_diff = xlsread('DataForFigures_300_800FOV_s3_3401.xlsx',1);

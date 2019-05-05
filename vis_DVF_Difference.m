@@ -8,13 +8,13 @@
 
 base_name = ('C:\Users\Kwon\Documents\MATLAB\PCA');
 cd(base_name);
-numofsubject = 5;
+numofsubject = 6;
 %param_name = ('trans_subsamp111_maxiter200');
 %param_name = ('trans_subsamp221_maxiter200');
-%param_name = ('r_c_d');
+param_name = ('r_c_d');
 %param_name = ('r_c_r_d');
 %param_name = ('r_c_r_c_d');
-param_name = ('r_d_c');
+%param_name = ('r_d_c');
 %% Calculate average of vector scolar 
 
 for i=1:numofsubject

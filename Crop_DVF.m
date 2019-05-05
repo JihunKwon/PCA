@@ -16,9 +16,13 @@ function []=Crop_DVF(subject_name,param_name)
 % y_S = 54; %left to right
 % z_S = 20;
 
-x_L = 84; %top to bottom
-y_L = 110; %left to right
-z_L = 36;
+% x_L = 84; %top to bottom
+% y_L = 110; %left to right
+% z_L = 36;
+
+x_L = 84; %anterior to posterior
+y_L = 146; %left to right
+z_L = 55; %Cranior Caudal
 
 if strcmp(param_name, 'r_d_c')
     x_L = 84; %top to bottom
@@ -101,7 +105,7 @@ data_x_new = abs(data_x_new);
 data_y_new = abs(data_y_new);
 data_z_new = abs(data_z_new);
 
-for i=1:4
+for i=1:14
     sum_x(i) = sum(sum(sum(data_x_new(:,:,:,i))));
     sum_y(i) = sum(sum(sum(data_y_new(:,:,:,i))));
     sum_z(i) = sum(sum(sum(data_z_new(:,:,:,i))));

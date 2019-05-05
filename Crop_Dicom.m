@@ -36,9 +36,13 @@ center_L = get_ROIcenter(subject_name);
 %%
 %[Large margins] Length of x,y,z
 %L" repreesnts Large
-x_L = 84; %top to bottom
-y_L = 110; %left to right
-z_L = 36;
+%x_L = 84; %anterior to posterior
+%y_L = 110; %left to right
+%z_L = 36; %Cranior Caudal
+
+x_L = 84; %anterior to posterior
+y_L = 146; %left to right
+z_L = 55; %Cranior Caudal
 
 %[Very Tight] Length of x,y,z
 %"S" repreesnts Small
@@ -90,7 +94,7 @@ for j=1:size(body_seg_L_1,3)
     %imshow(body_seg_L_1(:,:,j), []);
     export_fig(sprintf('body_seg_L_1_%d.png', j));
 end
-%{
+
 for j=1:size(body_seg_L_1,3)
     figure(1);
     imshow(body_seg_L_6(:,:,j), []);
@@ -101,7 +105,7 @@ for j=1:size(body_seg_L_1,3)
     imshow(body_seg_L_15(:,:,j), []);
     export_fig(sprintf('body_seg_L_15_%d.png', j));
 end
-%}
+
 
 %% Step2: Rigid registration (Slicer)
 
