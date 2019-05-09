@@ -9,17 +9,6 @@ function []=Crop_DVF(subject_name,param_name)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Crop dicom before applying DIR.
-%close all
-%clear
-
-% x_S = 46; %top to bottom
-% y_S = 54; %left to right
-% z_S = 20;
-
-% x_L = 84; %top to bottom
-% y_L = 110; %left to right
-% z_L = 36;
-
 x_L = 84; %anterior to posterior
 y_L = 146; %left to right
 z_L = 55; %Cranior Caudal
@@ -50,35 +39,9 @@ n=1;
 scale=1;
 
 if strcmp(param_name,'r_c_d') || strcmp(param_name,'r_c_r_d')
-    data_x_new = reshape(data_x, [x_L,y_L,z_L,14]);
-    data_y_new = reshape(data_y, [x_L,y_L,z_L,14]);
-    data_z_new = reshape(data_z, [x_L,y_L,z_L,14]);
-elseif strcmp(param_name,'r_c_r_c_d')
-    data_x_new = reshape(data_x, [x_S,y_S,z_S,14]);
-    data_y_new = reshape(data_y, [x_S,y_S,z_S,14]);
-    data_z_new = reshape(data_z, [x_S,y_S,z_S,14]);
-elseif (strcmp(param_name,'r_d_c'))
-    data_x_raw = reshape(data_x, [x_init,y_init,z_init,4]); %First import to original (before cropping) size
-    data_y_raw = reshape(data_y, [x_init,y_init,z_init,4]);
-    data_z_raw = reshape(data_z, [x_init,y_init,z_init,4]);
-    
-    %Next crop the DVF
-    center_L = get_ROIcenter(subject_name);
-    
-    for i = 1:size(data_x_raw,4)
-        data_x_new(:,:,:,i) = data_x_raw(center_L(1)+x_init/2-x_L/2 : center_L(1)+x_init/2+x_L/2 -1, ...
-                                            center_L(2)+y_init/2-y_L/2 : center_L(2)+y_init/2+y_L/2 -1, ...
-                                            center_L(3)+z_init/2-z_L/2 : center_L(3)+z_init/2+z_L/2 -1, i);
-                                        
-        data_y_new(:,:,:,i) = data_y_raw(center_L(1)+x_init/2-x_L/2 : center_L(1)+x_init/2+x_L/2 -1, ...
-                                            center_L(2)+y_init/2-y_L/2 : center_L(2)+y_init/2+y_L/2 -1, ...
-                                            center_L(3)+z_init/2-z_L/2 : center_L(3)+z_init/2+z_L/2 -1, i);
-                                        
-        data_z_new(:,:,:,i) = data_z_raw(center_L(1)+x_init/2-x_L/2 : center_L(1)+x_init/2+x_L/2 -1, ...
-                                            center_L(2)+y_init/2-y_L/2 : center_L(2)+y_init/2+y_L/2 -1, ...
-                                            center_L(3)+z_init/2-z_L/2 : center_L(3)+z_init/2+z_L/2 -1, i);
-    end
-    
+    data_x_new = reshape(data_x, [y_L,x_L,z_L,14]); %Notice X and Y is swapped here
+    data_y_new = reshape(data_y, [y_L,x_L,z_L,14]);
+    data_z_new = reshape(data_z, [y_L,x_L,z_L,14]);
 else %No Cropping
     if strcmp(subject_name,'C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181102')
         data_x_new = reshape(data_x, [320,220,120,14]); %v2run1, V1R2:[320,220,120,14]
@@ -91,10 +54,12 @@ else %No Cropping
     end
 end
 
-%Swap 1st and 2nd dimensions
-data_x_new = permute(data_x_new,[2,1,3,4]);
+%Swap 1st and 2nd dimensions (Why do I need to do this?)
+data_x_new = permute(data_x_new,[2,1,3,4]); %new order: [LR(146), AP(84), SI(55), time(14)] 
 data_y_new = permute(data_y_new,[2,1,3,4]);
 data_z_new = permute(data_z_new,[2,1,3,4]);
+
+%[data_x_new_g,data_y_new_g,data_z_new_g] = filt_DVF_XYZ(data_x_new,data_y_new,data_z_new);
 
 %% Calculate Average
 sum_x = zeros(14,1);
@@ -105,13 +70,18 @@ data_x_new = abs(data_x_new);
 data_y_new = abs(data_y_new);
 data_z_new = abs(data_z_new);
 
+%Filtered data
+% data_x_new = abs(data_x_new_g);
+% data_y_new = abs(data_y_new_g);
+% data_z_new = abs(data_z_new_g);
+
 for i=1:14
     sum_x(i) = sum(sum(sum(data_x_new(:,:,:,i))));
     sum_y(i) = sum(sum(sum(data_y_new(:,:,:,i))));
     sum_z(i) = sum(sum(sum(data_z_new(:,:,:,i))));
 end 
 
-ave_x = sum_x / size(data_x,1);
+ave_x = sum_x / size(data_x,1); %Devide by the number of voxel in the entire ROI
 ave_y = sum_y / size(data_x,1);
 ave_z = sum_z / size(data_x,1);
 

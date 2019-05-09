@@ -8,7 +8,7 @@
 
 base_name = ('C:\Users\Kwon\Documents\MATLAB\PCA');
 cd(base_name);
-numofsubject = 6;
+numofsubject = 5;
 %param_name = ('trans_subsamp111_maxiter200');
 %param_name = ('trans_subsamp221_maxiter200');
 param_name = ('r_c_d');

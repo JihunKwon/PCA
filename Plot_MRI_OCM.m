@@ -17,7 +17,7 @@ s3r1 = num_subject*4;
 %Color
 X = linspace(0,pi*3,1000); 
 Y = bsxfun(@(x,n)sin(x+2*n*pi/num_subject), X.', 1:num_subject); 
-C = linspecer(num_subject); 
+C = linspecer(6); 
 %C = [0.904605882352941,0.191764605882353,0.198823529411765;0.294117646058824,0.544605882352941,0.749411764605882;0.371764605882353,0.717646058823529,0.361176460588235;1,0.548235294117647,0.100000000000000;0.955000000000000,0.894646058823529,0.472176460588235;0.685882352941177,0.403529411764606,0.241176460588235;0.971764605882353,0.555294117646059,0.774117646058824];
 %Color: Blue; Red
 Color_my = vega20c;
@@ -32,10 +32,8 @@ ocm_runC = zeros(1,num_subject*3);
 cd('C:\Users\Kwon\Documents\Panc_OCM');
 mean_square_diff = zeros(30,num_subject);
 %mean_square_diff = xlsread('DataForFigures.xlsx',1);
-%mean_square_diff = xlsread('DataForFigures_300_800FOV_s3_3401.xlsx',1);
-mean_square_diff = xlsread('DataForFigures_300_800FOV.xlsx',1);
-%mean_square_diff = xlsread('DataForFigures_300_600FOV_s3_3401_hilbert_NoNorm.xlsx',1);
-%traces = xlsread('DataForFigures.xlsx',2);
+%mean_square_diff = xlsread('DataForFigures_300_650FOV.xlsx',1);
+mean_square_diff = xlsread('DataForFigures_MA50_300_650FOV_lp5.xlsx',1);
 cd('C:\Users\Kwon\Documents\MATLAB\PCA\OCM_Analysis');
 
 for sub = 1:num_subject
@@ -365,4 +363,4 @@ export_fig Scatter_MRIvsOCM_runcolor_normSub_circle.pdf
 
 
 %% Plot "before water" phase
-Plot_Scatter_Before
+%Plot_Scatter_Before
