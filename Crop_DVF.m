@@ -9,9 +9,10 @@ function []=Crop_DVF(subject_name,param_name)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Crop dicom before applying DIR.
-x_L = 84; %anterior to posterior
-y_L = 146; %left to right
-z_L = 55; %Cranior Caudal
+% x_L = 84; %anterior to posterior
+% y_L = 146; %left to right
+% z_L = 55; %Cranior Caudal
+[x_L, y_L, z_L] = get_ROI_XYZ(subject_name); %Subject specific ROI size
 
 if strcmp(param_name, 'r_d_c')
     x_L = 84; %top to bottom

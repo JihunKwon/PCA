@@ -35,6 +35,7 @@ for i=1:numofsubject
     dirname = strcat(subject_name,'\',param_name);
     cd(dirname);
     load('DVF_ave.mat');
+    load('DVF_hist_thr.mat');
     
     %{
     %Normal Average
@@ -44,9 +45,13 @@ for i=1:numofsubject
     %}
     
     %Root (Absolute scalar)
-    mri_runA(4*(i-1)+1:4*i) = ave_root(1:4); %A is before drink water
-    mri_runB(5*(i-1)+1:5*i) = ave_root(5:9); %B is shortly before drink water
-    mri_runC(5*(i-1)+1:5*i) = ave_root(10:14); %C is shortly before drink water
+%     mri_runA(4*(i-1)+1:4*i) = ave_root(1:4); %A is before drink water
+%     mri_runB(5*(i-1)+1:5*i) = ave_root(5:9); %B is shortly before drink water
+%     mri_runC(5*(i-1)+1:5*i) = ave_root(10:14); %C is shortly before drink water
+    
+    mri_runA(4*(i-1)+1:4*i) = data_xyz_thr_per(1:4); %A is before drink water
+    mri_runB(5*(i-1)+1:5*i) = data_xyz_thr_per(5:9); %B is shortly before drink water
+    mri_runC(5*(i-1)+1:5*i) = data_xyz_thr_per(10:14); %C is shortly before drink water
 end
 
 A = zeros(3,5*numofsubject);
@@ -58,7 +63,8 @@ xlswrite(filename,A,1)
 
 y_min = 0;
 y_max = 7;
-y_max_root = 10;
+%y_max_root = 10;
+y_max_root = 100;
 
 %{
 %Average

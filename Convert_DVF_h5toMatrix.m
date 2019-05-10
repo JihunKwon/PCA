@@ -15,7 +15,9 @@ end
 
 if strcmp(param_name,'r_c_d') || strcmp(param_name,'r_c_r_d')
     %num_voxel = 997920; % X*Y*Z*3(three dimension of vector field)
-    num_voxel = 2023560; % X*Y*Z*3(three dimension of vector field)
+    %num_voxel = 2023560; % X*Y*Z*3(three dimension of vector field)
+    [x_L, y_L, z_L] = get_ROI_XYZ(subject_name); %Subject specific ROI size
+    num_voxel = x_L * y_L * z_L * 3;
 elseif strcmp(param_name,'r_c_r_c_d')
     num_voxel = 149040;
 elseif strcmp(param_name,'r_d_c')

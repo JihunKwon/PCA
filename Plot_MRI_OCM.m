@@ -42,9 +42,6 @@ for sub = 1:num_subject
     ocm_runC(1+(sub-1)*5:sub*5) = mean_square_diff(26:30,5+(sub-1)*3); %10 min after water
 end
 
-%% Before removing outliers, plot normalized data
-
-
 %% Remove first scan of each run in OCM
 %First scan of each run has to be removed to match with MRI.
 if (size(ocm_runA,2)==num_subject*5)
@@ -55,20 +52,7 @@ if (size(ocm_runA,2)==num_subject*5)
     end
 end
 
-
-%% No Outlier
-%{
-    s1r1A = num_A; s1r1B = num_B; s1r1C = num_C;
-    s1r2A = num_A; s1r2B = num_B; s1r2C = num_C;
-    s2r1A = num_A; s2r1B = num_B; s2r1C = num_C;
-    s2r2A = num_A; s2r2B = num_B; s2r2C = num_C;
-    s3r1A = num_A; s3r1B = num_B; s3r1C = num_C;    
-    outlier_A = [];
-    outlier_B = [];
-    outlier_C = []; 
-%}  
 %% Remove outliers from both MRI and OCM.
-
 if strcmp(param_name,'r_c_d')
     %Manually define outliers here (outlier is detected from Box and whiskers plot)
     outlier_A = [];  %S1r2:5,S1r1:3
@@ -106,8 +90,6 @@ elseif strcmp(param_name,'r_c_r_d')
     s3r2A = num_A; s3r2B = num_B; s3r2C = num_C;
 end
 
-
-
 %Each subject, number of data points left.
 num_array_A = [s1r1A,s1r2A,s2r1A,s2r2A,s3r1A,s3r2A];
 num_array_B = [s1r1B,s1r2B,s2r1B,s2r2B,s3r1B,s3r2B];
@@ -143,7 +125,6 @@ if (size(ocm_runC,2)==num_subject*5)
         end
     end
 end
-
 
 %% Get mean and max of OCM and MRI
 ave_ocm_runA = mean(ocm_runA);
@@ -277,90 +258,65 @@ pbaspect([1 1 1])
 export_fig Scatter_MRIvsOCM_runcolor.png -q101
 export_fig Scatter_MRIvsOCM_runcolor.pdf
 
-%% scatter plots. normalize each subject with max MRI and OCM
-scat_m_runA_sub = m_runA_norm_sub;
-scat_m_runB_sub = m_runB_norm_sub;
-scat_m_runC_sub = m_runC_norm_sub;
+%% Plot each subject separetaly
+figure('Position', [391 1 700 1000]);
+numA_tot = 0;
+numB_tot = 0;
+numC_tot = 0;
 
-scat_o_runA_sub = o_runA_norm_sub;
-scat_o_runB_sub = o_runB_norm_sub;
-scat_o_runC_sub = o_runC_norm_sub;
+for sub = 1:num_subject
+    subaxis(3,2,sub,'SpacingVert',0.065,'SpacingHoriz',0.04);
+    scatter(scat_mri_runA(numA_tot+1:numA_tot+num_array_A(sub)),scat_ocm_runA(numA_tot+1:numA_tot+num_array_A(sub)),60,C(2,1:3),'filled',markers{sub},'LineWidth',1.3); hold on;
+    scatter(scat_mri_runB(numB_tot+1:numB_tot+num_array_B(sub)),scat_ocm_runB(numB_tot+1:numB_tot+num_array_B(sub)),60,C(1,1:3),'filled',markers{sub},'LineWidth',1.3); hold on;
+    scatter(scat_mri_runC(numC_tot+1:numC_tot+num_array_C(sub)),scat_ocm_runC(numC_tot+1:numC_tot+num_array_C(sub)),60,C(3,1:3),'filled',markers{sub},'LineWidth',1.3); hold on;
+    
+    numA_tot = numA_tot+num_array_A(sub);
+    numB_tot = numB_tot+num_array_B(sub);
+    numC_tot = numC_tot+num_array_C(sub);
+    
+    xlim([0 1.0]); ylim([0 1.0]);
+    xlabel('MRI');
+    ylabel('OCM');
+    
+    if sub==1
+        title('S1, run1');
+    elseif sub==2
+        title('S1, run2');
+    elseif sub==3
+        title('S2, run1');
+    elseif sub==4
+        title('S2, run2');
+    elseif sub==5
+        title('S3, run1');
+    end
+    %legend({'Before water intake','Shortly after water intake','10 min after water intake'},'Location','northwest','FontSize',8);
+    box on;
+    set(gcf, 'Color', 'w');
+    pbaspect([1 1 1])
+    
+end
 
-%Get R-square
-fit_MRI_norm_sub = [ave_all_mri_sub];
-fit_OCM_norm_sub = [ave_all_ocm_sub];
+subaxis(3,2,6,'SpacingVert',0.07,'SpacingHoriz',0.04);
 
-mdl = fitlm(fit_MRI_norm_sub,fit_OCM_norm_sub);
-R2 = mdl.Rsquared.Ordinary;
-b = mdl.Coefficients.Estimate(1);
-a = mdl.Coefficients.Estimate(2);
-x = 0:0.1:1;
-y = a*x+b;
-
-%% Plot with different shape
-figure;
-%markers = {'o', 'o', 's', 's','^'};
-markers = {'o', 'd', 's', 'v','^','v'};
 numA_tot = 0;
 numB_tot = 0;
 numC_tot = 0;
 for sub = 1:num_subject
-    scatter(scat_m_runA_sub(numA_tot+1:numA_tot+num_array_A(sub)),scat_o_runA_sub(numA_tot+1:numA_tot+num_array_A(sub)),60,C(2,1:3),'filled',markers{sub},'LineWidth',1.3); hold on;
-    scatter(scat_m_runB_sub(numB_tot+1:numB_tot+num_array_B(sub)),scat_o_runB_sub(numB_tot+1:numB_tot+num_array_B(sub)),60,C(1,1:3),'filled',markers{sub},'LineWidth',1.3); hold on;
-    scatter(scat_m_runC_sub(numC_tot+1:numC_tot+num_array_C(sub)),scat_o_runC_sub(numC_tot+1:numC_tot+num_array_C(sub)),60,C(3,1:3),'filled',markers{sub},'LineWidth',1.3); hold on;
+    scatter(scat_mri_runA(numA_tot+1:numA_tot+num_array_A(sub)),scat_ocm_runA(numA_tot+1:numA_tot+num_array_A(sub)),60,C(2,1:3),'filled',markers{sub},'LineWidth',1.3); hold on;
+    scatter(scat_mri_runB(numB_tot+1:numB_tot+num_array_B(sub)),scat_ocm_runB(numB_tot+1:numB_tot+num_array_B(sub)),60,C(1,1:3),'filled',markers{sub},'LineWidth',1.3); hold on;
+    scatter(scat_mri_runC(numC_tot+1:numC_tot+num_array_C(sub)),scat_ocm_runC(numC_tot+1:numC_tot+num_array_C(sub)),60,C(3,1:3),'filled',markers{sub},'LineWidth',1.3); hold on;
     
     numA_tot = numA_tot+num_array_A(sub);
     numB_tot = numB_tot+num_array_B(sub);
     numC_tot = numC_tot+num_array_C(sub);
 end
 
-xlim([0 1.0]);
-ylim([0 1.0]);
-plot(x,y,'Color',[0,0,0]);
-text(0.4,0.53, ['R^2 = ' num2str(R2)],'FontSize',10);
-
-xlabel('MRI, DVF_{Mean Magnitude}');
-ylabel('OCM, Mean Square Difference');
-title('Normalize for each subjects');
-legend({'Before water intake','Shortly after water intake','10 min after water intake'},'Location','northwest','FontSize',10);
-%legend boxoff 
+xlim([0 1.0]); ylim([0 1.0]);
+xlabel('MRI');
+ylabel('OCM');
+title('All data');
 box on;
 set(gcf, 'Color', 'w');
 pbaspect([1 1 1])
-export_fig Scatter_MRIvsOCM_runcolor_normSub.png -q101
-export_fig Scatter_MRIvsOCM_runcolor_normSub.pdf
-
-%% Plot with same shape
-figure;
-markers = {'o'};
-numA_tot = 0;
-numB_tot = 0;
-numC_tot = 0;
-for sub = 1:num_subject
-    scatter(scat_m_runA_sub(numA_tot+1:numA_tot+num_array_A(sub)),scat_o_runA_sub(numA_tot+1:numA_tot+num_array_A(sub)),60,C(2,1:3),'filled',markers{1},'LineWidth',1.3); hold on;
-    scatter(scat_m_runB_sub(numB_tot+1:numB_tot+num_array_B(sub)),scat_o_runB_sub(numB_tot+1:numB_tot+num_array_B(sub)),60,C(1,1:3),'filled',markers{1},'LineWidth',1.3); hold on;
-    scatter(scat_m_runC_sub(numC_tot+1:numC_tot+num_array_C(sub)),scat_o_runC_sub(numC_tot+1:numC_tot+num_array_C(sub)),60,C(3,1:3),'filled',markers{1},'LineWidth',1.3); hold on;
-    
-    numA_tot = numA_tot+num_array_A(sub);
-    numB_tot = numB_tot+num_array_B(sub);
-    numC_tot = numC_tot+num_array_C(sub);
-end
-
-xlim([0 1.0]);
-ylim([0 1.0]);
-plot(x,y,'Color',[0,0,0]);
-text(0.4,0.53, ['R^2 = ' num2str(R2)],'FontSize',10);
-
-xlabel('MRI, DVF_{Mean Magnitude}');
-ylabel('OCM, Mean Square Difference');
-legend({'Before water intake','Shortly after water intake','10 min after water intake'},'Location','northwest','FontSize',9);
-%legend boxoff 
-box on;
-set(gcf, 'Color', 'w');
-pbaspect([1 1 1])
-export_fig Scatter_MRIvsOCM_runcolor_normSub_circle.png -q101
-export_fig Scatter_MRIvsOCM_runcolor_normSub_circle.pdf
-
-
-%% Plot "before water" phase
-%Plot_Scatter_Before
+%legend({'Before water intake','Shortly after water intake','10 min after water intake'},'Location','southeastoutside','FontSize',8);
+export_fig Scatter_EachSubject.png -q101
