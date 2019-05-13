@@ -61,7 +61,7 @@ Crop_Dicom(subject_name)
 %}
 
 %% DVF_Histogram
-thr = 4;
+thr = 5;
 subject_name = ('C:\Users\Kwon\Documents\MATLAB\PCA\Subject_01_20180928');
 param_name = ('r_c_d');
 get_DVF_hist(subject_name,param_name,thr)

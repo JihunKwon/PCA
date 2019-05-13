@@ -276,7 +276,7 @@ for sub = 1:num_subject
     
     xlim([0 1.0]); ylim([0 1.0]);
     xlabel('MRI');
-    ylabel('OCM');
+    ylabel('OCM, Mean Square Difference');
     
     if sub==1
         title('S1, run1');
@@ -294,6 +294,17 @@ for sub = 1:num_subject
     set(gcf, 'Color', 'w');
     pbaspect([1 1 1])
     
+    %Get subject-specific R-square 
+    fit_OCM_sub(sub,:) = [ocm_runA_norm((sub-1)*4+1:sub*4) ocm_runB_norm((sub-1)*5+1:sub*5) ocm_runC_norm((sub-1)*5+1:sub*5)];
+    fit_MRI_sub(sub,:) = [mri_runA_norm((sub-1)*4+1:sub*4) mri_runB_norm((sub-1)*5+1:sub*5) mri_runC_norm((sub-1)*5+1:sub*5)];
+    mdl_sub = fitlm(fit_MRI_sub(sub,:),fit_OCM_sub(sub,:));
+    R2_sub = mdl_sub.Rsquared.Ordinary;
+    b_sub = mdl_sub.Coefficients.Estimate(1);
+    a_sub = mdl_sub.Coefficients.Estimate(2);
+    x_sub = 0:0.1:1;
+    y_sub = a_sub*x_sub+b_sub;
+    plot(x_sub,y_sub,'Color',[0,0,0]);
+    text(0.05,0.9, ['R^2 = ' num2str(R2_sub)],'FontSize',10);
 end
 
 subaxis(3,2,6,'SpacingVert',0.07,'SpacingHoriz',0.04);
@@ -316,10 +327,13 @@ plot(x,y,'Color',[0,0,0]);
 text(0.05,0.9, ['R^2 = ' num2str(R2)],'FontSize',10);
 
 xlabel('MRI');
-ylabel('OCM');
+ylabel('OCM, Mean Square Difference');
 title('All data');
 box on;
 set(gcf, 'Color', 'w');
 pbaspect([1 1 1])
 %legend({'Before water intake','Shortly after water intake','10 min after water intake'},'Location','southeastoutside','FontSize',8);
 export_fig Scatter_EachSubject.png -q101
+
+%Plot_Scatter_Before
+Plot_Standardization
