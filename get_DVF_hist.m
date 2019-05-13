@@ -18,7 +18,7 @@ for tp = 1:size(data_x,2)
 end
 
 %% Visualize Histogram
-
+%{
 figure;
 set(gcf,'Position',[0 0 1500 900], 'Color', 'w')
 %Before water
@@ -71,10 +71,9 @@ title('10min after water, 5');
 %title('DVF, Z component, filtered'); colorbar; colormap parula; 
 cd ..
 export_fig DVF_histogram.png -q101
-
+%}
 
 %% Calculate number of voxels higher than the threshold
-%thr = 7; %Set threshold
 data_xyz_thr = zeros(1,size(data_x,2)); %Correct number of voxels after thresholding
 data_xyz_thr_per = zeros(1,size(data_x,2)); %Percentage of the voxels
 
@@ -83,8 +82,9 @@ for tp = 1:size(data_x,2)
     data_xyz_thr(tp) = sum(data_xyz(:,tp)>thr);
     data_xyz_thr_per(tp) = data_xyz_thr(tp)/size(data_xyz,1)*100;
 end
-figure
-plot(1:14,data_xyz_thr_per(1:14))
+% figure
+% plot(1:14,data_xyz_thr_per(1:14))
+cd(dirname);
 save(strcat('DVF_hist_thr.mat'),'data_xyz_thr_per');
 end
 

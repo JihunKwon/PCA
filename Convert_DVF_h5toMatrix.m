@@ -7,12 +7,6 @@ function []=Convert_DVF_h5toMatrix(subject_name,param_name)
 % Email: jkwon3@bwh.harvard.edu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-if strcmp(subject_name,'C:\Users\jihun\Documents\MATLAB\PCA\Subject_02_20181102')
-    num_voxel = 25344000; %For v1run2 and v2run1
-else
-    num_voxel = 29952000; %For run1
-end
-
 if strcmp(param_name,'r_c_d') || strcmp(param_name,'r_c_r_d')
     %num_voxel = 997920; % X*Y*Z*3(three dimension of vector field)
     %num_voxel = 2023560; % X*Y*Z*3(three dimension of vector field)
@@ -20,12 +14,6 @@ if strcmp(param_name,'r_c_d') || strcmp(param_name,'r_c_r_d')
     num_voxel = x_L * y_L * z_L * 3;
 elseif strcmp(param_name,'r_c_r_c_d')
     num_voxel = 149040;
-elseif strcmp(param_name,'r_d_c')
-    num_voxel = 29952000; %776160;
-    if (strcmp(subject_name, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_02_20181102') || ...
-            strcmp(subject_name, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_03_20190228'))
-        num_voxel = 25344000; %776160;
-    end
 end
 
 dirname = strcat(subject_name,'\',param_name);

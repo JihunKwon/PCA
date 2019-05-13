@@ -32,8 +32,8 @@ ocm_runC = zeros(1,num_subject*3);
 cd('C:\Users\Kwon\Documents\Panc_OCM');
 mean_square_diff = zeros(30,num_subject);
 %mean_square_diff = xlsread('DataForFigures.xlsx',1);
-%mean_square_diff = xlsread('DataForFigures_300_650FOV.xlsx',1);
-mean_square_diff = xlsread('DataForFigures_MA50_300_650FOV_lp5.xlsx',1);
+mean_square_diff = xlsread('DataForFigures_300_650FOV.xlsx',1);
+%mean_square_diff = xlsread('DataForFigures_MA50_300_650FOV_lp5.xlsx',1);
 cd('C:\Users\Kwon\Documents\MATLAB\PCA\OCM_Analysis');
 
 for sub = 1:num_subject
@@ -312,6 +312,9 @@ for sub = 1:num_subject
 end
 
 xlim([0 1.0]); ylim([0 1.0]);
+plot(x,y,'Color',[0,0,0]);
+text(0.05,0.9, ['R^2 = ' num2str(R2)],'FontSize',10);
+
 xlabel('MRI');
 ylabel('OCM');
 title('All data');

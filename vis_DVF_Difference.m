@@ -107,11 +107,12 @@ plot(x_A(1:4),mri_runA(5:8),'b--o'); hold on;
 plot(x_A(1:4),mri_runA(9:12),'r-*');hold on;
 plot(x_A(1:4),mri_runA(13:16),'r--*'); hold on;
 plot(x_A(1:4),mri_runA(17:20),'g-s'); hold on;
-plot(x_A(1:4),mri_runA(21:24),'g--s');
+%plot(x_A(1:4),mri_runA(21:24),'g--s');
 title('Before Water Intake');
 xlabel('Timepoints');
 ylabel('Average of Vector Scalar');
-legend({'S1 Run1','S1 Run2','S2 Run1','S2 Run2','S3 Run1','S3 Run2'},'Location','northeast','FontSize',8);
+%legend({'S1 Run1','S1 Run2','S2 Run1','S2 Run2','S3 Run1','S3 Run2'},'Location','northeast','FontSize',8);
+legend({'S1 Run1','S1 Run2','S2 Run1','S2 Run2','S3 Run1'},'Location','northeast','FontSize',8);
 xlim([1 4]);
 xticks([1 2 3 4]);
 ylim([y_min y_max_root]);
@@ -122,7 +123,7 @@ plot(x_BC(5:9),mri_runB(6:10),'b--o'); hold on;
 plot(x_BC(5:9),mri_runB(11:15),'r-*');hold on;
 plot(x_BC(5:9),mri_runB(16:20),'r--*'); hold on;
 plot(x_BC(5:9),mri_runB(21:25),'g-s'); hold on;
-plot(x_BC(5:9),mri_runB(26:30),'g--s');
+%plot(x_BC(5:9),mri_runB(26:30),'g--s');
 title('Shortly After Water Intake');
 xlabel('Timepoints');
 xlim([5 9]);
@@ -135,7 +136,7 @@ plot(x_BC(10:14),mri_runC(6:10),'b--o'); hold on;
 plot(x_BC(10:14),mri_runC(11:15),'r-*');hold on;
 plot(x_BC(10:14),mri_runC(16:20),'r--*');hold on;
 plot(x_BC(10:14),mri_runC(21:25),'g-s');hold on;
-plot(x_BC(10:14),mri_runC(26:30),'g--s');
+%plot(x_BC(10:14),mri_runC(26:30),'g--s');
 title('10 min After Water Intake');
 xlabel('Timepoints');
 xlim([10 14]);
@@ -145,3 +146,5 @@ set(gcf, 'Color', 'w');
 savename = strcat('Ave_DVF_Dist_root_',param_name,'.png');
 saveas(gcf,savename);
 export_fig((savename), '-q101')
+
+Plot_MRI_OCM

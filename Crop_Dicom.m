@@ -31,14 +31,10 @@ basefolder_r = strcat(subject_name,'\Cropped\rigid');
 
 cd(basefolder_r)
 
-%% center of ROI. Change specifically for subject
+%% set center of ROI. Change specifically for subject
 center_L = get_ROIcenter(subject_name);
 
-%%
-%[Large margins] Length of x,y,z
-% x_L = 84; %anterior to posterior
-% y_L = 146; %left to right
-%z_L = 55; %Cranior Caudal
+%% set size of ROI.
 [x_L, y_L, z_L] = get_ROI_XYZ(subject_name); %Subject specific ROI size
 
 %% Step0: Rigid registration (Slicer)
@@ -84,7 +80,7 @@ for j=1:size(body_seg_L_1,3)
     %imshow(body_seg_L_1(:,:,j), []);
     export_fig(sprintf('body_seg_L_1_%d.png', j));
 end
-
+%{
 for j=1:size(body_seg_L_1,3)
     figure(1);
     imshow(body_seg_L_6(:,:,j), []);
@@ -95,6 +91,6 @@ for j=1:size(body_seg_L_1,3)
     imshow(body_seg_L_15(:,:,j), []);
     export_fig(sprintf('body_seg_L_15_%d.png', j));
 end
-
+%}
 
 %% Step2: Rigid registration (Slicer)
