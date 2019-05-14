@@ -19,7 +19,6 @@ h1 = gscatter(data_mri,data_ocm,phase,'brg','os^',[],'off');
 h1(1).LineWidth = 2;
 h1(2).LineWidth = 2;
 hl(3).LineWidth = 2;
-legend('Before water intake','Shortly after water intake','10min after water intake','Location','northwest');
 xlabel('MRI, DVF');
 ylabel('OCM, Mean Square Difference');
 hold on;
@@ -32,19 +31,35 @@ K = MdlLinear.Coeffs(1,3).Const;
 L = MdlLinear.Coeffs(1,3).Linear;
 
 f = @(x1,x2)K + L(1)*x1 + L(2)*x2;
-h2 = fimplicit(f, [0 2 0 2]);
-h2.Color = 'r';
+%f = K + L(1)*x1 + L(2)*x2;
+h2 = fimplicit(f);
+h2.Color = 'k';
 h2.LineWidth = 2;
-h2.DisplayName = 'Boundary between after and 10min after';
+%h2.DisplayName = 'Boundary between after and 10min after';
 
+legend('Before water intake','Shortly after water intake','10min after water intake','Boundary','Location','southeast','FontSize',8);
+xlim([-2.4 2.4]); ylim([-2.4 2.4]);
+box on;
+set(gcf, 'Color', 'w');
+pbaspect([1 1 1])
 
-MdlLinear.ClassNames([1 2]);
-K = MdlLinear.Coeffs(1,2).Const;
-L = MdlLinear.Coeffs(1,2).Linear;
+%%Calculate ROC here
+Line_X = h2.XData;
+Line_Y = h2.YData;
+y = fit(Line_X',Line_Y','linearinterp'); %Get equation of the boundary
+output = [];
+%Create output
+for a = (size(stdz_mriA_sub,2)+size(stdz_mriB_sub,2))+1:size(data_mri) %Scan "10min"
+    temp = [data_mri(a) data_ocm(a)];
+    if temp <= y(data_mri(a)) %If below boundary
+        output{a} = 'True';
+    else
+        output{a} = 'False';
+    end    
+end
 
-f = @(x1,x2)K + L(1)*x1 + L(2)*x2;
-h3 = fimplicit(f);
-h3.Color = 'g';
-h3.LineWidth = 2;
-h3.DisplayName = 'Boundary between before and 10min after';
+%Remove "before" and "shortly after" phases
+output = output((size(stdz_mriA_sub,2)+size(stdz_mriB_sub,2))+1:size(data_mri));
 
+%Calculate ROC
+[X,Y,T,AUC] = perfcurve(phase,score(:,1),'virginica');
