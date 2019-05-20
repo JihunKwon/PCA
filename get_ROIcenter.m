@@ -22,7 +22,7 @@ elseif strcmp(subject_name, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_03_20190
     center_L = [-14 -2 -9];
 elseif strcmp(subject_name, 'C:\Users\Kwon\Documents\MATLAB\PCA\Subject_03_20190320')
     %v3run2 (NV)
-    center_L = [-20 0 -15];
+    center_L = [-20 0 -5];
 else
     print('No such subject!');
 end

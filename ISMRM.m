@@ -15,13 +15,13 @@ ocm_runA = zeros(1,num_subject*3);
 ocm_runB = zeros(1,num_subject*3);
 ocm_runC = zeros(1,num_subject*3);
 
-cd('C:\Users\jihun\Documents\US_MRI');
+cd('C:\Users\Kwon\Documents\Panc_OCM');
 mean_square_diff = zeros(30,num_subject);
 %mean_square_diff = xlsread('DataForFigures.xlsx',1);
 %mean_square_diff = xlsread('DataForFigures_replist_corrected.xlsx',1);
 mean_square_diff = xlsread('DataForFigures_300_700FOV_s3_3401.xlsx',1);
-traces = xlsread('DataForFigures.xlsx',2);
-cd('C:\Users\jihun\Documents\MATLAB\PCA');
+traces = xlsread('DataForFigures_300_800FOV.xlsx',2);
+cd('C:\Users\Kwon\Documents\MATLAB\PCA');
 
 for sub = 1:num_subject
     ocm_runA(1+(sub-1)*5:sub*5) = mean_square_diff(26:30,3+(sub-1)*3); %Before water
@@ -243,28 +243,26 @@ export_fig Scatter_MRIvsOCM_runcolor_normSub.png -q101;
 
 %% Plot traces
 
-figure('Position', [391 100 350 400]);
-subaxis(3,1,1,'MarginLeft',0.15,'MarginBottom',0.15,'SpacingVert',0,'MR',0.04);
+figure('Position', [391 100 400 400]);
+subaxis(2,1,1,'MarginLeft',0.15,'MarginBottom',0.15,'SpacingVert',0,'MR',0.04);
 plot(traces(:,1),traces(:,2),'LineWidth',2);
 xlim([2 6]);
-ylim([0 1.15]);
-set(gca,'XTickLabel',[]);
-title('Before water intake','FontSize',12,'Units', 'normalized', 'Position', [0.14, 0.8, 0]);
-
-subaxis(3,1,2,'SpacingVert',0,'MR',0.04);
-plot(traces(:,1),traces(:,3),'LineWidth',2);
-xlim([2 6]);
-ylim([0 1.15]);
+ylim([0 1.12]);
+xticks(2:0.5:6)
 ylabel('Intensity','FontSize',14);
 set(gca,'XTickLabel',[]);
-title('Shortly after water intake','FontSize',12,'Units', 'normalized', 'Position', [0.19, 0.8, 0]);
+title('Before water intake','FontSize',12,'Units', 'normalized', 'Position', [0.26, 0.83, 0]);
+grid on;
 
-subaxis(3,1,3,'SpacingVert',0,'MR',0.04);
-plot(traces(:,1),traces(:,4),'LineWidth',2);
+subaxis(2,1,2,'SpacingVert',0,'MR',0.04);
+plot(traces(:,1),traces(:,3),'LineWidth',2);
 xlim([2 6]);
-ylim([0 1.15]);
+ylim([0 1.12]);
+xticks(2:0.5:6)
 xlabel('Depth (cm)','FontSize',14);
-title('10 min after water intake','FontSize',12,'Units', 'normalized', 'Position', [0.18, 0.8, 0]);
+ylabel('Intensity','FontSize',14);
+title('Shortly after water intake','FontSize',12,'Units', 'normalized', 'Position', [0.33, 0.83, 0]);
+grid on;
 set(gcf, 'Color', 'w');
 saveas(gcf,'Traces.png');
 export_fig Traces.png -q101

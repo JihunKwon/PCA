@@ -1,6 +1,6 @@
 %Plot OCM and MRI figures together
 % ! Run after "vis_DVF_Difference.m" to get mri_runA,mri_runB,mri_runC
-num_subject = 5;
+num_subject = 6;
 xtl_time = {{'Before';'water intake'} {'Shortly after';'water intake'} {'10 min after';'water intake'}};
 
 %number of datapoints
