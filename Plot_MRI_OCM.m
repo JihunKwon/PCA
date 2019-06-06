@@ -32,7 +32,7 @@ ocm_runC = zeros(1,num_subject*3);
 cd('C:\Users\Kwon\Documents\Panc_OCM');
 mean_square_diff = zeros(30,num_subject);
 %mean_square_diff = xlsread('DataForFigures.xlsx',1);
-mean_square_diff = xlsread('DataForFigures_300_650FOV.xlsx',1);
+mean_square_diff = xlsread('DataForFigures_300_800FOV_inv_corrected.xlsx',1);
 %mean_square_diff = xlsread('DataForFigures_MA50_300_650FOV_lp5.xlsx',1);
 cd('C:\Users\Kwon\Documents\MATLAB\PCA\OCM_Analysis');
 

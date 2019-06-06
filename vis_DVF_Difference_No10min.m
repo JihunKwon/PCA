@@ -7,7 +7,7 @@
 
 base_name = ('C:\Users\Kwon\Documents\MATLAB\PCA');
 cd(base_name);
-numofsubject = 6;
+num_subject = 6;
 param_name = ('r_c_d');
 
 % Import OCM data
@@ -16,7 +16,7 @@ ocm_runB = zeros(1,num_subject*3);
 
 cd('C:\Users\Kwon\Documents\Panc_OCM');
 mean_square_diff = zeros(30,num_subject);
-mean_square_diff = xlsread('DataForFigures_300_650FOV.xlsx',1);
+mean_square_diff = xlsread('DataForFigures_300_650FOV_inv_corrected.xlsx',1);
 cd('C:\Users\Kwon\Documents\MATLAB\PCA\OCM_Analysis');
 
 for sub = 1:num_subject
@@ -25,7 +25,7 @@ for sub = 1:num_subject
 end
 
 %% Calculate average of vector scolar 
-for i=1:numofsubject
+for i=1:num_subject
     if i==1
         subject_name = ('C:\Users\Kwon\Documents\MATLAB\PCA\Subject_01_20180928'); %JB run1
     elseif i==2
@@ -49,8 +49,8 @@ for i=1:numofsubject
     mri_runB(5*(i-1)+1:5*i) = data_xyz_thr_per(5:9); %B is shortly before drink water
 end
 
-A = zeros(3,5*numofsubject);
-A(1,1:4*(numofsubject)) = mri_runA;
+A = zeros(3,5*num_subject);
+A(1,1:4*(num_subject)) = mri_runA;
 A(2,:) = mri_runB;
 filename = 'MRI_DVF_matlab.xlsx';
 xlswrite(filename,A,1)
@@ -95,6 +95,18 @@ if (size(ocm_runA,2)==num_subject*5)
         end
     end
 end
+%Manually define outliers here (outlier is detected from Box and whiskers plot)
+outlier_A = [];
+outlier_B = [];
+outlier_C = [];
+
+%Update subject datapoint number. manually change subtract value
+s1r1A = num_A; s1r1B = num_B;
+s1r2A = num_A; s1r2B = num_B;
+s2r1A = num_A; s2r1B = num_B;
+s2r2A = num_A; s2r2B = num_B;
+s3r1A = num_A; s3r1B = num_B;
+s3r2A = num_A; s3r2B = num_B;
 
 %Each subject, number of data points left.
 num_array_A = [s1r1A,s1r2A,s2r1A,s2r2A,s3r1A,s3r2A];
@@ -171,11 +183,19 @@ saveas(gcf,'BoxPlots.png')
 % mri_runA vs mri_runB, 
 [h_mri_23,p_mri_23] = ttest2(mri_runA,mri_runB);
 [h_ocm_23,p_ocm_23] = ttest2(ocm_runA,ocm_runB);
+ave_ocm_runA_norm = mean(ocm_runA_norm);
+ave_ocm_runB_norm = mean(ocm_runB_norm);
+ave_mri_runA_norm = mean(mri_runA_norm);
+ave_mri_runB_norm = mean(mri_runB_norm);
+sd_ocm_runA_norm = std(ocm_runA_norm);
+sd_ocm_runB_norm = std(ocm_runB_norm);
+sd_mri_runA_norm = std(mri_runA_norm);
+sd_mri_runB_norm = std(mri_runB_norm);
 
 %% Plot distribution
 %Draw distribution of averages
-x_A=1:4*numofsubject;
-x_B=1:5*numofsubject;
+x_A=1:4*num_subject;
+x_B=1:5*num_subject;
 
 %% MRI DVF Distribution
 figure('Position', [391 10 450 450]);
@@ -191,9 +211,10 @@ title('Before Water Intake','FontSize',font_size);
 legend({'Subject1 exp1','Subject1 exp2','Subject2 exp1','Subject2 exp2','Subject3 exp1','Subject3 exp2'} ... 
     ,'Location','northeast','FontSize',9);
 xticks([1 2 3 4]);
+xticklabels({'2','3','4','5'})
 xlim([1 4]);
-ylim([y_min y_max_root]);
-xlabel('Timepoints');
+ylim([0 80]);
+xlabel('Breath holds');
 ylabel('Relative number of voxels (%)');
 ax = gca; 
 ax.FontSize = 10;
@@ -207,17 +228,19 @@ plot(x_B(5:9),mri_runB(16:20),'LineStyle','--','Color',[1 0 0],'Marker','s'); ho
 plot(x_B(5:9),mri_runB(21:25),'LineStyle','-','Color',[0 0.6 0],'Marker','^','MarkerFaceColor',[0 0.6 0]); hold on;
 plot(x_B(5:9),mri_runB(26:30),'LineStyle','--','Color',[0 0.6 0],'Marker','^'); hold on;
 title('Shortly After Water Intake','FontSize',font_size);
-xlabel('Timepoints');
+xlabel('Breath holds');
 xlim([5 9]);
 xticks([5 6 7 8 9]);
-ylim([y_min 80]);
-xlabel('Timepoints'); 
+xticklabels({'6','7','8','9','10'})
+ylim([0 80]);
+xlabel('Breath holds'); 
 ax = gca; 
 ax.FontSize = 10;
 set(gcf, 'Color', 'w');
 grid on;
 export_fig Dist_DVF.png -q101
 export_fig Dist_DVF.pdf
+export_fig Fig4.png
 
 
 %% OCM Distribution
@@ -236,9 +259,10 @@ title('Before Water Intake','FontSize',font_size);
 legend({'Subject1 exp1','Subject1 exp2','Subject2 exp1','Subject2 exp2','Subject3 exp1','Subject3 exp2'} ... 
     ,'Location','northeast','FontSize',9);
 xticks([1 2 3 4]);
+xticklabels({'2','3','4','5'})
 xlim([1 4]);
 ylim([y_min y_max_ocm]);
-xlabel('Timepoints');
+xlabel('Breath holds');
 ylabel('Mean Square Difference (a.u.)');
 ax = gca; 
 ax.FontSize = 10;
@@ -252,14 +276,15 @@ plot(x_B(5:9),ocm_runB(16:20),'LineStyle','--','Color',[1 0 0],'Marker','s'); ho
 plot(x_B(5:9),ocm_runB(21:25),'LineStyle','-','Color',[0 0.6 0],'Marker','^','MarkerFaceColor',[0 0.6 0]); hold on;
 plot(x_B(5:9),ocm_runB(26:30),'LineStyle','--','Color',[0 0.6 0],'Marker','^'); hold on;
 title('Shortly After Water Intake','FontSize',font_size);
-xlabel('Timepoints');
+xlabel('Breath holds');
 xlim([5 9]);
 xticks([5 6 7 8 9]);
+xticklabels({'6','7','8','9','10'})
 ylim([y_min y_max_ocm]);
-xlabel('Timepoints'); 
 ax = gca; 
 ax.FontSize = 10;
 set(gcf, 'Color', 'w');
 grid on;
 export_fig Dist_OCM.png -q101
 export_fig Dist_OCM.pdf
+export_fig Fig5.png
