@@ -65,7 +65,7 @@ cd(base_name)
 figure
 ave_all_root = [mri_runA mri_runB];
 g = [zeros(1,length(mri_runA)), ones(1,length(mri_runB))];
-boxplot(ave_all_root, g,'Labels',{'Befor water intake','Shortly after water intake'});
+boxplot(ave_all_root, g,'Labels',{'State 1','State 2'});
 ylabel('Relative number of voxels (%)');
 set(gcf, 'Color', 'w');
 ylim([y_min y_max_mri]);
@@ -73,7 +73,7 @@ export_fig Ave_DVF_root_relative.png -q101
 export_fig Ave_DVF_root_relative.pdf
 
 %% Plot OCM and MRI figures together
-xtl_time = {{'Before';'water intake'} {'Shortly after';'water intake'}};
+xtl_time = {{'State 1'} {'State 2'}};
 
 %number of datapoints
 num_A = 4;
@@ -207,7 +207,7 @@ plot(x_A(1:4),mri_runA(9:12),'LineStyle','-','Color',[1 0 0],'Marker','s','Marke
 plot(x_A(1:4),mri_runA(13:16),'LineStyle','--','Color',[1 0 0],'Marker','s'); hold on;
 plot(x_A(1:4),mri_runA(17:20),'LineStyle','-','Color',[0 0.6 0],'Marker','^','MarkerFaceColor',[0 0.6 0]); hold on;
 plot(x_A(1:4),mri_runA(21:24),'LineStyle','--','Color',[0 0.6 0],'Marker','^'); hold on;
-title('Before Water Intake','FontSize',font_size);
+title('State 1','FontSize',font_size);
 legend({'Subject1 exp1','Subject1 exp2','Subject2 exp1','Subject2 exp2','Subject3 exp1','Subject3 exp2'} ... 
     ,'Location','northeast','FontSize',9);
 xticks([1 2 3 4]);
@@ -227,7 +227,7 @@ plot(x_B(5:9),mri_runB(11:15),'LineStyle','-','Color',[1 0 0],'Marker','s','Mark
 plot(x_B(5:9),mri_runB(16:20),'LineStyle','--','Color',[1 0 0],'Marker','s'); hold on;
 plot(x_B(5:9),mri_runB(21:25),'LineStyle','-','Color',[0 0.6 0],'Marker','^','MarkerFaceColor',[0 0.6 0]); hold on;
 plot(x_B(5:9),mri_runB(26:30),'LineStyle','--','Color',[0 0.6 0],'Marker','^'); hold on;
-title('Shortly After Water Intake','FontSize',font_size);
+title('State 2','FontSize',font_size);
 xlabel('Breath holds');
 xlim([5 9]);
 xticks([5 6 7 8 9]);
@@ -255,7 +255,7 @@ plot(x_A(1:4),ocm_runA(9:12),'LineStyle','-','Color',[1 0 0],'Marker','s','Marke
 plot(x_A(1:4),ocm_runA(13:16),'LineStyle','--','Color',[1 0 0],'Marker','s'); hold on;
 plot(x_A(1:4),ocm_runA(17:20),'LineStyle','-','Color',[0 0.6 0],'Marker','^','MarkerFaceColor',[0 0.6 0]); hold on;
 plot(x_A(1:4),ocm_runA(21:24),'LineStyle','--','Color',[0 0.6 0],'Marker','^'); hold on;
-title('Before Water Intake','FontSize',font_size);
+title('State 1','FontSize',font_size);
 legend({'Subject1 exp1','Subject1 exp2','Subject2 exp1','Subject2 exp2','Subject3 exp1','Subject3 exp2'} ... 
     ,'Location','northeast','FontSize',9);
 xticks([1 2 3 4]);
@@ -275,7 +275,7 @@ plot(x_B(5:9),ocm_runB(11:15),'LineStyle','-','Color',[1 0 0],'Marker','s','Mark
 plot(x_B(5:9),ocm_runB(16:20),'LineStyle','--','Color',[1 0 0],'Marker','s'); hold on;
 plot(x_B(5:9),ocm_runB(21:25),'LineStyle','-','Color',[0 0.6 0],'Marker','^','MarkerFaceColor',[0 0.6 0]); hold on;
 plot(x_B(5:9),ocm_runB(26:30),'LineStyle','--','Color',[0 0.6 0],'Marker','^'); hold on;
-title('Shortly After Water Intake','FontSize',font_size);
+title('State 2','FontSize',font_size);
 xlabel('Breath holds');
 xlim([5 9]);
 xticks([5 6 7 8 9]);

@@ -1,7 +1,7 @@
 %Plot OCM and MRI figures together
 % ! Run after "vis_DVF_Difference.m" to get mri_runA,mri_runB,mri_runC
 num_subject = 6;
-xtl_time = {{'Before';'water intake'} {'Shortly after';'water intake'} {'10 min after';'water intake'}};
+xtl_time = {{'State 1'} {'State 2'} {'State 3'}};
 
 %number of datapoints
 num_A = 4;
@@ -32,8 +32,8 @@ ocm_runC = zeros(1,num_subject*3);
 cd('C:\Users\Kwon\Documents\Panc_OCM');
 mean_square_diff = zeros(30,num_subject);
 %mean_square_diff = xlsread('DataForFigures.xlsx',1);
-mean_square_diff = xlsread('DataForFigures_300_800FOV_inv_corrected.xlsx',1);
-%mean_square_diff = xlsread('DataForFigures_MA50_300_650FOV_lp5.xlsx',1);
+%mean_square_diff = xlsread('DataForFigures_300_800FOV_inv_corrected.xlsx',1);
+mean_square_diff = xlsread('DataForFigures_MA50_300_650FOV_lp5.xlsx',1);
 cd('C:\Users\Kwon\Documents\MATLAB\PCA\OCM_Analysis');
 
 for sub = 1:num_subject
@@ -251,7 +251,7 @@ text(0.4,0.5, ['R^2 = ' num2str(R2)],'FontSize',10);
 xlabel('MRI, DVF_{Mean Magnitude}');
 ylabel('OCM, Mean Square Difference');
 title('Normalize by max among all subjects');
-legend({'Before water intake','Shortly after water intake','10 min after water intake'},'Location','northwest','FontSize',8);
+legend({'State 1','State 2','State 3'},'Location','northwest','FontSize',8);
 box on;
 set(gcf, 'Color', 'w');
 pbaspect([1 1 1])
@@ -289,7 +289,7 @@ for sub = 1:num_subject
     elseif sub==5
         title('S3, run1');
     end
-    %legend({'Before water intake','Shortly after water intake','10 min after water intake'},'Location','northwest','FontSize',8);
+    %legend({'State 1','State 2','State 3'},'Location','northwest','FontSize',8);
     box on;
     set(gcf, 'Color', 'w');
     pbaspect([1 1 1])
@@ -332,7 +332,7 @@ title('All data');
 box on;
 set(gcf, 'Color', 'w');
 pbaspect([1 1 1])
-%legend({'Before water intake','Shortly after water intake','10 min after water intake'},'Location','southeastoutside','FontSize',8);
+%legend({'State 1','State 2','State 3'},'Location','southeastoutside','FontSize',8);
 export_fig Scatter_EachSubject.png -q101
 
 %Plot_Scatter_Before

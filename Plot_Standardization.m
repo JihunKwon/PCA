@@ -62,7 +62,7 @@ for sub = 1:num_subject
     elseif sub==5
         title('S3, run1');
     end
-    %legend({'Before water intake','Shortly after water intake','10 min after water intake'},'Location','northwest','FontSize',8);
+    %legend({'State 1','State 2','State 3'},'Location','northwest','FontSize',8);
     box on;
     set(gcf, 'Color', 'w');
     pbaspect([1 1 1])
@@ -121,7 +121,7 @@ title('Standardized each subject separately');
 box on;
 set(gcf, 'Color', 'w');
 pbaspect([1 1 1])
-legend({'Before water intake','Shortly after water intake','10 min after water intake'},'Location','northwest','FontSize',8);
+legend({'State 1','State 2','State 3'},'Location','northwest','FontSize',8);
 export_fig Scatter_Standard_EachSubject_OnlyAll.png -q101
 
 save(strcat('Scatter_Standard_each.mat'),'stdz_mriA_sub','stdz_mriB_sub','stdz_mriC_sub','stdz_ocmA_sub','stdz_ocmB_sub','stdz_ocmC_sub');
