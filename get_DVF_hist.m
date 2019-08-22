@@ -1,4 +1,4 @@
-function [] = get_DVF_hist(subject_name,param_name,thr)
+function [] = get_DVF_hist(subject_name,param_name,thr,sr_name)
 %get_DVF_hist import DVF and show histogram of distribution.
 
 [x_L, y_L, z_L] = get_ROI_XYZ(subject_name); %Subject specific ROI size
@@ -23,55 +23,72 @@ figure;
 set(gcf,'Position',[0 0 1500 900], 'Color', 'w')
 %Before water
 subaxis(5,3,1,'SpacingVert',0.04,'SpacingHoriz',0.04);
-histogram(data_xyz(:,1),300); xlim([0 30]);
+h1 = histogram(data_xyz(:,1),300); xlim([0 30]);
+h1.BinWidth = h1.BinWidth*4;
 title('Before water, 1');
 subaxis(5,3,4,'SpacingVert',0.04,'SpacingHoriz',0.04);
-histogram(data_xyz(:,2),300); xlim([0 30]);
+h2 = histogram(data_xyz(:,2),300); xlim([0 30]);
+h2.BinWidth = h1.BinWidth;
 title('Before water, 2');
 subaxis(5,3,7,'SpacingVert',0.04,'SpacingHoriz',0.04);
-histogram(data_xyz(:,3),300); xlim([0 30]);
+h3 = histogram(data_xyz(:,3),300); xlim([0 30]);
+h3.BinWidth = h1.BinWidth;
 title('Before water, 3');
 subaxis(5,3,10,'SpacingVert',0.04,'SpacingHoriz',0.04);
-histogram(data_xyz(:,4),300); xlim([0 30]);
+h4 = histogram(data_xyz(:,4),300); xlim([0 30]);
+h4.BinWidth = h1.BinWidth;
 title('Before water, 4');
 
 %After water
 subaxis(5,3,2,'SpacingVert',0.04,'SpacingHoriz',0.04);
-histogram(data_xyz(:,5),300); xlim([0 30]);
+h5 = histogram(data_xyz(:,5),300); xlim([0 30]);
+h5.BinWidth = h1.BinWidth;
 title('After water, 1');
 subaxis(5,3,5,'SpacingVert',0.04,'SpacingHoriz',0.04);
-histogram(data_xyz(:,6),300); xlim([0 30]);
+h6 = histogram(data_xyz(:,6),300); xlim([0 30]);
+h6.BinWidth = h1.BinWidth;
 title('After water, 2');
 subaxis(5,3,8,'SpacingVert',0.04,'SpacingHoriz',0.04);
-histogram(data_xyz(:,7),300); xlim([0 30]);
+h7 = histogram(data_xyz(:,7),300); xlim([0 30]);
+h7.BinWidth = h1.BinWidth;
 title('After water, 3');
 subaxis(5,3,11,'SpacingVert',0.04,'SpacingHoriz',0.04);
-histogram(data_xyz(:,8),300); xlim([0 30]);
+h8 = histogram(data_xyz(:,8),300); xlim([0 30]);
+h8.BinWidth = h1.BinWidth;
 title('After water, 4');
 subaxis(5,3,14,'SpacingVert',0.04,'SpacingHoriz',0.04);
-histogram(data_xyz(:,9),300); xlim([0 30]);
+h9 = histogram(data_xyz(:,9),300); xlim([0 30]);
+h9.BinWidth = h1.BinWidth;
 title('After water, 5');
 
 %10min After water
 subaxis(5,3,3,'SpacingVert',0.04,'SpacingHoriz',0.04);
-histogram(data_xyz(:,10),300); xlim([0 30]);
+h10 = histogram(data_xyz(:,10),300); xlim([0 30]);
+h10.BinWidth = h1.BinWidth;
 title('10min after water, 1');
 subaxis(5,3,6,'SpacingVert',0.04,'SpacingHoriz',0.04);
-histogram(data_xyz(:,11),300); xlim([0 30]);
+h11 = histogram(data_xyz(:,11),300); xlim([0 30]);
+h11.BinWidth = h1.BinWidth;
 title('10min after water, 2');
 subaxis(5,3,9,'SpacingVert',0.04,'SpacingHoriz',0.04);
-histogram(data_xyz(:,12),300); xlim([0 30]);
+h12 = histogram(data_xyz(:,12),300); xlim([0 30]);
+h12.BinWidth = h1.BinWidth;
 title('10min after water, 3');
 subaxis(5,3,12,'SpacingVert',0.04,'SpacingHoriz',0.04);
-histogram(data_xyz(:,13),300); xlim([0 30]);
+h13 = histogram(data_xyz(:,13),300); xlim([0 30]);
+h13.BinWidth = h1.BinWidth;
 title('10min after water, 4');
 subaxis(5,3,15,'SpacingVert',0.04,'SpacingHoriz',0.04);
-histogram(data_xyz(:,14),300); xlim([0 30]);
+h14 = histogram(data_xyz(:,14),300); xlim([0 30]);
+h14.BinWidth = h1.BinWidth;
 title('10min after water, 5');
 %title('DVF, Z component, filtered'); colorbar; colormap parula; 
 cd ..
-export_fig DVF_histogram.png -q101
 
+cd C:\Users\Kwon\Documents\MATLAB\PCA
+savename = strcat('DVF_histogram_',sr_name,'.png');
+export_fig(sprintf(savename), '-q101');
+%export_fig DVF_histogram.png -q101
 
 %% Calculate number of voxels higher than the threshold
 data_xyz_thr = zeros(1,size(data_x,2)); %Correct number of voxels after thresholding
