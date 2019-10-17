@@ -36,24 +36,32 @@ end
 i=1;
 figure
 set(gcf, 'Position', [0 0 550 450], 'Color', 'w')
-i=i+1;
-plot(odr_raw(1,1:10),odr_ave(i,1:10),'DisplayName','s1 exp1','LineStyle','-','Color',[0 0 1],'LineWidth',1.2,'Marker','o','MarkerFaceColor',[0 0 1]); hold on;
-i=i+1;
-plot(odr_raw(1,1:10),odr_ave(i,1:10),'DisplayName','s1 exp2','LineStyle','--','Color',[0 0 1],'LineWidth',1.2,'Marker','o'); hold on;
-i=i+1;
-plot(odr_raw(1,1:10),odr_ave(i,1:10),'DisplayName','s2 exp1','LineStyle','-','Color',[1 0 0],'LineWidth',1.2,'Marker','s','MarkerFaceColor',[1 0 0]); hold on;
-i=i+1;
-plot(odr_raw(1,1:10),odr_ave(i,1:10),'DisplayName','s2 exp2','LineStyle','--','Color',[1 0 0],'LineWidth',1.2,'Marker','s'); hold on;
-i=i+1;
-plot(odr_raw(1,1:10),odr_ave(i,1:10),'DisplayName','s3 exp1','LineStyle','-','Color',[0 0.6 0],'LineWidth',1.2,'Marker','^','MarkerFaceColor',[0 0.6 0]); hold on;
-i=i+1;
-plot(odr_raw(1,1:10),odr_ave(i,1:10),'DisplayName','s3 exp2','LineStyle','--','Color',[0 0.6 0],'LineWidth',1.2,'Marker','^'); hold on;
 
-legend({'Subject1 exp1','Subject1 exp2','Subject2 exp1','Subject2 exp2','Subject3 exp1','Subject3 exp2'} ... 
+% area plot
+ha1 = area([1 5], [100 100], 'LineStyle','none'); hold on;
+ha2 = area([6 10], [100 100], 'LineStyle','none'); hold on;
+alpha(ha1,.15)
+alpha(ha2,.15)
+
+i=i+1;
+p1 = plot(odr_raw(1,1:10),odr_ave(i,1:10),'DisplayName','s1 exp1','LineStyle','-','Color',[0 0 1],'LineWidth',1.2,'Marker','o','MarkerFaceColor',[0 0 1]); hold on;
+i=i+1;
+p2 = plot(odr_raw(1,1:10),odr_ave(i,1:10),'DisplayName','s1 exp2','LineStyle','--','Color',[0 0 1],'LineWidth',1.2,'Marker','o'); hold on;
+i=i+1;
+p3 = plot(odr_raw(1,1:10),odr_ave(i,1:10),'DisplayName','s2 exp1','LineStyle','-','Color',[1 0 0],'LineWidth',1.2,'Marker','s','MarkerFaceColor',[1 0 0]); hold on;
+i=i+1;
+p4 = plot(odr_raw(1,1:10),odr_ave(i,1:10),'DisplayName','s2 exp2','LineStyle','--','Color',[1 0 0],'LineWidth',1.2,'Marker','s'); hold on;
+i=i+1;
+p5 = plot(odr_raw(1,1:10),odr_ave(i,1:10),'DisplayName','s3 exp1','LineStyle','-','Color',[0 0.6 0],'LineWidth',1.2,'Marker','^','MarkerFaceColor',[0 0.6 0]); hold on;
+i=i+1;
+p6 = plot(odr_raw(1,1:10),odr_ave(i,1:10),'DisplayName','s3 exp2','LineStyle','--','Color',[0 0.6 0],'LineWidth',1.2,'Marker','^'); hold on;
+
+
+legend([p1 p2 p3 p4 p5 p6], {'Subject1 exp1','Subject1 exp2','Subject2 exp1','Subject2 exp2','Subject3 exp1','Subject3 exp2'} ... 
     ,'Location','northwest','FontSize',12);
 
 xlabel('Breath-holds');
-ylabel('Outlier detection rate (%)');
+ylabel({'Confidence that the anatomy has';'actually changed (ODR, %)'})
 ax = gca;
 ax.FontSize = 12;
 grid on;
