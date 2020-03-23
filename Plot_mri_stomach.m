@@ -127,6 +127,12 @@ ax = gca;
 ax.FontSize = 12;
 grid on;
 
+% calculate mean
+m_state1 = (mean(mri_stomach_norm_bh1(1:5,1))+mean(mri_stomach_norm_bh1(1:5,2))+mean(mri_stomach_norm_bh1(1:5,3)) ...
+    +mean(mri_stomach_norm_bh1(1:5,4))+mean(mri_stomach_norm_bh1(1:5,5))+mean(mri_stomach_norm_bh1(1:5,6)))/6;
+m_state2 = (mean(mri_stomach_norm_bh1(6:9,1))+mean(mri_stomach_norm_bh1(6:10,2))+mean(mri_stomach_norm_bh1(6:10,3)) ...
+    +mean(mri_stomach_norm_bh1(6:10,4))+mean(mri_stomach_norm_bh1(6:10,5))+mean(mri_stomach_norm_bh1(6:10,6)))/6;
+
 box on;
 export_fig mri_stomach_norm_bh1.eps
 export_fig mri_stomach_norm_bh1.png

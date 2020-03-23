@@ -3,7 +3,8 @@ num_sub = 6;
 num_ocm = 3;
 
 cd('C:\Users\Kwon\PycharmProjects\PancOCM_ML')
-odr = xlsread('mXsd_detection rate_matlab.xlsx',6);
+%odr = xlsread('mXsd_detection rate_matlab.xlsx',6);
+odr = xlsread('mXsd_detection rate_matlab.xlsx',7); % Mahalanobis distance
 
 cd('C:\Users\Kwon\Documents\MATLAB\PCA')
 
@@ -56,8 +57,12 @@ p5 = plot(odr_raw(1,1:10),odr_ave(i,1:10),'DisplayName','s3 exp1','LineStyle','-
 i=i+1;
 p6 = plot(odr_raw(1,1:10),odr_ave(i,1:10),'DisplayName','s3 exp2','LineStyle','--','Color',[0 0.6 0],'LineWidth',1.2,'Marker','^'); hold on;
 
+% average
+p7 = plot(odr_raw(1,1:10), mean(odr_ave(2:7,1:10)),'DisplayName','Average','LineStyle','-','Color',[0 0 0],'LineWidth',1.2,'Marker','v','MarkerFaceColor',[0 0 0]); hold on;
 
-legend([p1 p2 p3 p4 p5 p6], {'Subject1 exp1','Subject1 exp2','Subject2 exp1','Subject2 exp2','Subject3 exp1','Subject3 exp2'} ... 
+
+
+legend([p1 p2 p3 p4 p5 p6 p7], {'Subject1 exp1','Subject1 exp2','Subject2 exp1','Subject2 exp2','Subject3 exp1','Subject3 exp20','Average'} ... 
     ,'Location','northwest','FontSize',12);
 
 xlabel('Breath-holds');
@@ -70,5 +75,7 @@ xticks(1:1:10);
 yticks(0:10:100);
 
 box on;
-export_fig odr.eps
-export_fig odr.png
+export_fig odr_mahala.eps
+export_fig odr_mahala.png
+%export_fig odr_mean.eps
+%export_fig odr_mean.png
